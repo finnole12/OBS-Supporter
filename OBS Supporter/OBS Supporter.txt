@@ -1,0 +1,206 @@
+using System;
+using System.Windows.Forms;
+using System.IO;
+using System.Windows.Media;
+using System.Management;
+using IWshRuntimeLibrary;
+using OBSWebsocketDotNet;
+
+namespace OBS_Supporter
+{
+    public partial class frmOBSSupporter : Form
+    {
+        //Initializing---------------------------------------------------------------------------------------------------------------
+        public frmOBSSupporter()
+        {
+            InitializeComponent();
+
+            nfiTrayIcon.Visible = true;
+            OBS_RBDWatcher.EnableRaisingEvents = true;
+            OBS_RBDWatcher.Changed += RBDChanged;
+            watchOut();
+            findLogFile();
+
+            _obs.Connected += onConnect;
+            _obs.SceneChanged += onSceneChange;
+        }
+
+        public static void watchOut()
+        {
+            ManagementEventWatcher startWatch = new ManagementEventWatcher(new WqlEventQuery("SELECT * FROM Win32_ProcessStartTrace"));
+            startWatch.EventArrived += new EventArrivedEventHandler(startWatch_EventArrived);
+            startWatch.Start();
+            ManagementEventWatcher stopWatch = new ManagementEventWatcher(new WqlEventQuery("SELECT * FROM Win32_ProcessStopTrace"));
+            stopWatch.EventArrived += new EventArrivedEventHandler(stopWatch_EventArrived);
+            stopWatch.Start();
+        }
+
+        //Variables---------------------------------------------------------------------------------------------------------------
+        protected static OBSWebsocket _obs = new OBSWebsocket();
+        static string isScene;
+        static string wantScene;
+        FileSystemWatcher OBS_RBDWatcher = new FileSystemWatcher(@"Y:\Users\Fnolikopternator\Videos\OBSM");
+        FileSystemWatcher OBS_LogWatcher = new FileSystemWatcher(@"C:\Users\Fnolikopternator\AppData\Roaming\obs-studio\logs");
+        DirectoryInfo logDir = new DirectoryInfo(@"C:\Users\Fnolikopternator\AppData\Roaming\obs-studio\logs");
+        FileInfo latestLog = new FileInfo("path");
+
+
+        //Watcher-Methods---------------------------------------------------------------------------------------------------------------
+        private static void gameStarted(string game)
+        {
+            wantScene = game;
+            if (!_obs.IsConnected)
+            {
+                WshShell shell1 = new WshShell();
+                IWshShortcut shortcut1 = (IWshShortcut)shell1.CreateShortcut(@"Y:\Program Files\obs-studio\bin\64bit\OBS_escape.lnk");
+                shortcut1.TargetPath = @"Y:\Program Files\obs-studio\bin\64bit\obs64.exe";
+                shortcut1.WorkingDirectory = @"Y:\Program Files\obs-studio\bin\64bit";
+                shortcut1.Save();
+
+                System.Diagnostics.Process.Start(shortcut1.FullName);
+
+                MediaPlayer mPlayer = new MediaPlayer();
+                mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\TTS\OBS has launched.mp3"));
+                mPlayer.Volume = 0.2;
+                mPlayer.Play();
+            }
+            else
+            {
+                setScene();
+            }
+        }
+
+        //_obs-Events---------------------------------------------------------------------------------------------------------------
+        private static void onSceneChange(OBSWebsocket sender, string newSceneName)
+        {
+            MediaPlayer mPlayer = new MediaPlayer();
+            mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\TTS\Scene was changed to " + newSceneName + ".mp3"));
+            mPlayer.Volume = 0.2;
+            mPlayer.Play();
+        }
+
+        private static void onConnect(object sender, EventArgs e)
+        {
+            setScene();
+        }
+
+        static void stopWatch_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            Console.WriteLine("Process stopped: {0}", e.NewEvent.Properties["ProcessName"].Value);
+        }
+
+        static void startWatch_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            if ((string)e.NewEvent.Properties["ProcessName"].Value == "TslGame.exe")
+            {
+                gameStarted("PUBG");
+            }
+
+            if ((string)e.NewEvent.Properties["ProcessName"].Value == "mgsvtpp.exe")
+            {
+                System.Diagnostics.Process.Start(@"Y:\Users\Fnolikopternator\Downloads\Games\Mods\MGSV TPP\21_9_marker_fix_1_10 +\21_9_marker_fix_1_10+.EXE");
+            }
+
+            if ((string)e.NewEvent.Properties["ProcessName"].Value == "RocketLeague.exe")
+            {
+                gameStarted("Desktop");
+            }
+
+            if ((string)e.NewEvent.Properties["ProcessName"].Value == "obs64.exe")
+            {
+                if (!_obs.IsConnected)
+                {
+                    _obs.Connect("ws://127.0.0.1:4444", "");
+                }
+            }
+        }
+
+        private static void RBDChanged(object sender, FileSystemEventArgs e)
+        {
+            MediaPlayer mPlayer = new MediaPlayer();
+            mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\Sound FX\Air Plane Ding-SoundBible.com-496729130.mp3"));
+            mPlayer.Volume = 0.1;
+            mPlayer.Play();
+        }
+
+        //_obs-Methods---------------------------------------------------------------------------------------------------------------
+        private static void refreshSceneName()
+        {
+            isScene = _obs.GetCurrentScene().Name;
+        }
+
+        private static void setScene()
+        {
+            refreshSceneName();
+            if ((isScene != wantScene) && (wantScene != ""))
+            {
+                _obs.SetCurrentScene(wantScene);
+            }
+            _obs.StartRecording();
+        }
+
+        //form-Events---------------------------------------------------------------------------------------------------------------
+        private void frmOBSSupporter_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+            }
+        }
+
+        private void nfiTrayIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void frmOBSSupporter_Shown(object sender, EventArgs e)
+        {
+            Hide();
+            nfiTrayIcon.Visible = true;
+        }
+
+
+
+
+        //outdated---------------------------------------------------------------------------------------------------------------
+        private void logChanged(object sender, FileSystemEventArgs e)
+        {
+            //using (var fs = new FileStream(latestLog.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            //using (var sr = new StreamReader(fs, Encoding.Default))
+            //{
+            //    string line = sr.ReadToEnd();
+            //    line = line.Substring(0, line.LastIndexOf("\n") - 2);
+            //    line = line.Substring(line.LastIndexOf("\n"));
+            //    MessageBox.Show(line);
+            //}
+        }
+
+        private void findLogFile()
+        {
+            //DateTime topCreateTime = new DateTime(1, 1, 1, 0, 0, 0);
+            //foreach (FileInfo f in logDir.GetFiles())
+            //{
+            //    if (f.CreationTime > topCreateTime)
+            //    {
+            //        latestLog = f;
+            //        topCreateTime = f.CreationTime;
+            //    }
+            //}
+            //OBS_LogWatcher.EnableRaisingEvents = true;
+            //OBS_LogWatcher.Changed += logChanged;
+
+            //TcpListener server = new TcpListener(4444);
+            //server.Start();
+            //TcpClient client = server.AcceptTcpClient();
+            //NetworkStream stream = client.GetStream();
+
+            //while (true)
+            //{
+            //    while (!stream.DataAvailable) ;
+            //    Byte[] bytes = new Byte[client.Available];
+            //    stream.Read(bytes, 0, bytes.Length);
+            //}
+        }
+    }
+}
