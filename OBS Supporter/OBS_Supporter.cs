@@ -16,8 +16,8 @@ namespace OBS_Supporter
     {
         //Variables---------------------------------------------------------------------------------------------------------------
         private Main main;
-        FileSystemWatcher OBS_RBDWatcher = new FileSystemWatcher(@"Y:\Users\Fnolikopternator\Videos\SPM");
-        FileSystemWatcher OBS_LogWatcher = new FileSystemWatcher(@"C:\Users\Fnolikopternator\AppData\Roaming\obs-studio\logs");
+        //FileSystemWatcher OBS_RBDWatcher = new FileSystemWatcher(@"Y:\Users\Fnolikopternator\Videos\SPM");
+        FileSystemWatcher OBS_RBDWatcher;
         public ManagementEventWatcher startWatch;
         private OBSScene[] sceneNames;
         public String[] sceneNamesStr;
@@ -53,12 +53,7 @@ namespace OBS_Supporter
             controlLineList = new Empty(this);
             main = new Main(this);
             nfiTrayIcon.Visible = true;
-            OBS_RBDWatcher.EnableRaisingEvents = true;
-            OBS_RBDWatcher.Changed += main.RBDChanged;
             watchOut();
-
-            main.createObsLnk();
-            main.createObsProcess();
 
             allSceneGames = Properties.Settings.Default.savedSceneGames;
             if (allSceneGames != null)
@@ -96,7 +91,7 @@ namespace OBS_Supporter
             stopWatch.EventArrived += new EventArrivedEventHandler(main.stopWatch_EventArrived);
             stopWatch.Start();
         }
-
+        
             //initiates form filling based on connection state
         private void fillForm(bool connectionState)
         {
@@ -104,8 +99,10 @@ namespace OBS_Supporter
             if (connectionState)
             {
                 fillComboBoxes();
+                connected = true;
                 lblConnection.Text = "*connected";
                 lblConnection.ForeColor = System.Drawing.Color.Green;
+                getRecordingPath();
             }
             else
             {
@@ -219,7 +216,7 @@ namespace OBS_Supporter
         }
 
             //Saves Settings
-        private void btnOK_Click(object sender, EventArgs e)
+        private void applySettings()
         {
             lblInvalid.Visible = false;
             main.obsPath = Path.GetFullPath(tbxObsPath.Text);
@@ -228,7 +225,7 @@ namespace OBS_Supporter
             main.createObsProcess();
 
             Properties.Settings.Default.savedSceneGames = controlLineList.getAllSceneGames();
-
+            Properties.Settings.Default.savedOBSPath = main.obsPath;
             Properties.Settings.Default.savedUtilityProcesses = controlLineList.getAllUtilityApplications();
             Properties.Settings.Default.savedConsoleOnLaunch = cbxShowConsoleOnLaunch.Checked;
             Properties.Settings.Default.savedTeamSpeakRelaunch = cbxTeamspeakRelaunch.Checked;
@@ -237,7 +234,17 @@ namespace OBS_Supporter
 
             Properties.Settings.Default.Save();
             btnOK.Enabled = false;
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            applySettings();
             Hide();
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            applySettings();
         }
 
         private void btnAddSceneConfig_Click(object sender, EventArgs e)
@@ -397,6 +404,23 @@ namespace OBS_Supporter
             makeSettingsVisible(pnlFixes);
             btnFixes.FlatStyle = FlatStyle.Flat;
         }
+
+        private void btnRefreshPath_Click(object sender, EventArgs e)
+        {
+            getRecordingPath();
+        }
+
+        private void getRecordingPath()
+        {
+            if (connected)
+            {
+                string recordingPath = @main._obs.GetRecordingFolder().Replace("/", "\\");
+                lblRecordingPath.Text = "Recording Path:   " + recordingPath;
+                OBS_RBDWatcher = new FileSystemWatcher(recordingPath);
+                OBS_RBDWatcher.EnableRaisingEvents = true;
+                OBS_RBDWatcher.Changed += main.RBDChanged;
+            }
+        }
     }
 
     public class Main
@@ -412,7 +436,7 @@ namespace OBS_Supporter
         public IWshShortcut shortcut1;
         public Process obsProcess;
         UInt32 obsProcessID;
-        public string obsPath = @"Y:\Program Files\obs-studio\bin\64bit\obs64.exe";
+        public string obsPath = Properties.Settings.Default.savedOBSPath;
         private Boolean onConnectTriggered = false;
         private Boolean opened = false;
         private string sceneChangedTo;
@@ -431,6 +455,11 @@ namespace OBS_Supporter
             _obs.Disconnected += onDisconnect;
             _obs.SceneChanged += onSceneChange;
             writeInConsole(ConsoleColor.Red, "OBS-events distributed");
+            if (obsPath != "")
+            {
+                createObsLnk();
+                createObsProcess();
+            }
         }
 
         //Form-Methods--------------------------------------------------------------------------------------------------------------
@@ -575,16 +604,20 @@ namespace OBS_Supporter
         public void createObsLnk()
         {
             shell1 = new WshShell();
-            shortcut1 = (IWshShortcut)shell1.CreateShortcut(@"Y:\Program Files\obs-studio\bin\64bit\OBS_escape.lnk");
-            shortcut1.TargetPath = @"Y:\Program Files\obs-studio\bin\64bit\obs64.exe";
-            shortcut1.WorkingDirectory = @"Y:\Program Files\obs-studio\bin\64bit";
+            string directory = obsPath.Substring(0, obsPath.LastIndexOf("\\"));
+            shortcut1 = (IWshShortcut)shell1.CreateShortcut(directory + "OBS_escape.lnk");
+            shortcut1.TargetPath = obsPath;
+            shortcut1.WorkingDirectory = directory;
             shortcut1.Save();
         }
 
         public void removeObsLnk()
         {
-            FileInfo f = new FileInfo(shortcut1.FullName);
-            f.Delete();
+            if (shortcut1 != null)
+            {
+                FileInfo f = new FileInfo(shortcut1.FullName);
+                if (f.Exists) f.Delete();
+            }
         }
 
         public void createObsProcess()

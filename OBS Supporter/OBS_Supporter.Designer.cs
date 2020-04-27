@@ -46,6 +46,8 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.pnlConsole = new System.Windows.Forms.Panel();
             this.pnlGeneral = new System.Windows.Forms.Panel();
+            this.btnRefreshPath = new System.Windows.Forms.Button();
+            this.lblRecordingPath = new System.Windows.Forms.Label();
             this.pnlFixes = new System.Windows.Forms.Panel();
             this.pnlSceneConfig = new System.Windows.Forms.Panel();
             this.btnGeneral = new System.Windows.Forms.Button();
@@ -53,6 +55,7 @@
             this.btnConsole = new System.Windows.Forms.Button();
             this.btnSceneConfig = new System.Windows.Forms.Button();
             this.btnFixes = new System.Windows.Forms.Button();
+            this.btnApply = new System.Windows.Forms.Button();
             this.pnlConsole.SuspendLayout();
             this.pnlGeneral.SuspendLayout();
             this.pnlFixes.SuspendLayout();
@@ -90,7 +93,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.Enabled = false;
-            this.btnOK.Location = new System.Drawing.Point(809, 320);
+            this.btnOK.Location = new System.Drawing.Point(725, 318);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -227,6 +230,8 @@
             // 
             this.pnlGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlGeneral.Controls.Add(this.btnRefreshPath);
+            this.pnlGeneral.Controls.Add(this.lblRecordingPath);
             this.pnlGeneral.Controls.Add(this.lblInvalid);
             this.pnlGeneral.Controls.Add(this.btnBrowse);
             this.pnlGeneral.Controls.Add(this.tbxObsPath);
@@ -237,6 +242,25 @@
             this.pnlGeneral.Name = "pnlGeneral";
             this.pnlGeneral.Size = new System.Drawing.Size(694, 138);
             this.pnlGeneral.TabIndex = 13;
+            // 
+            // btnRefreshPath
+            // 
+            this.btnRefreshPath.Location = new System.Drawing.Point(6, 111);
+            this.btnRefreshPath.Name = "btnRefreshPath";
+            this.btnRefreshPath.Size = new System.Drawing.Size(84, 23);
+            this.btnRefreshPath.TabIndex = 11;
+            this.btnRefreshPath.Text = "Refresh Path";
+            this.btnRefreshPath.UseVisualStyleBackColor = true;
+            this.btnRefreshPath.Click += new System.EventHandler(this.btnRefreshPath_Click);
+            // 
+            // lblRecordingPath
+            // 
+            this.lblRecordingPath.AutoSize = true;
+            this.lblRecordingPath.Location = new System.Drawing.Point(3, 95);
+            this.lblRecordingPath.Name = "lblRecordingPath";
+            this.lblRecordingPath.Size = new System.Drawing.Size(87, 13);
+            this.lblRecordingPath.TabIndex = 10;
+            this.lblRecordingPath.Text = "Recording Path: ";
             // 
             // pnlFixes
             // 
@@ -333,11 +357,23 @@
             this.btnFixes.UseVisualStyleBackColor = true;
             this.btnFixes.Click += new System.EventHandler(this.btnFixes_Click);
             // 
+            // btnApply
+            // 
+            this.btnApply.Location = new System.Drawing.Point(809, 318);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 20;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            // 
             // frmOBSSupporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 353);
+            this.Controls.Add(this.btnApply);
+            this.Controls.Add(this.pnlGeneral);
             this.Controls.Add(this.btnFixes);
             this.Controls.Add(this.pnlConsole);
             this.Controls.Add(this.btnSceneConfig);
@@ -345,7 +381,6 @@
             this.Controls.Add(this.btnGeneral);
             this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlFixes);
-            this.Controls.Add(this.pnlGeneral);
             this.Controls.Add(this.btnOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOBSSupporter";
@@ -389,6 +424,9 @@
         private System.Windows.Forms.Button btnConsole;
         private System.Windows.Forms.Button btnSceneConfig;
         private System.Windows.Forms.Button btnFixes;
+        private System.Windows.Forms.Label lblRecordingPath;
+        private System.Windows.Forms.Button btnRefreshPath;
+        private System.Windows.Forms.Button btnApply;
     }
 }
 

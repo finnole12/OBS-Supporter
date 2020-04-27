@@ -25,7 +25,7 @@ namespace OBS_Supporter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool savedConsoleOnLaunch {
             get {
                 return ((bool)(this["savedConsoleOnLaunch"]));
@@ -102,6 +102,18 @@ namespace OBS_Supporter.Properties {
             }
             set {
                 this["savedUtilityProcesses"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string savedOBSPath {
+            get {
+                return ((string)(this["savedOBSPath"]));
+            }
+            set {
+                this["savedOBSPath"] = value;
             }
         }
     }

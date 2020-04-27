@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="savedConsoleOnLaunch" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="savedSceneGames" Type="System.String[][]" Scope="User">
       <Value Profile="(Default)" />
@@ -21,6 +21,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="savedUtilityProcesses" Type="System.Collections.ArrayList" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="savedOBSPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
