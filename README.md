@@ -1,7 +1,11 @@
 # OBS-Supporter by finnole12
 
 this app starts up and configures obs automatically for selected games
-this is using the obs-websocket plugin for obs and the obs-websocket-dotnet api both from https://github.com/Palakis.
+
+USING:
+  - obs-websocket plugin and 
+  - obs-websocket-dotnet api both from https://github.com/Palakis
+  - TaskScheduler from https://github.com/dahall/TaskScheduler
 
 INSTALL GUIDE:
 
