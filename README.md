@@ -5,7 +5,7 @@ this app starts up and configures obs automatically for selected games
 USING:
   - obs-websocket plugin and 
   - obs-websocket-dotnet api both from https://github.com/Palakis
-  - TaskScheduler from https://github.com/dahall/TaskScheduler
+  - TaskScheduler from https://github.com/dahall
 
 INSTALL GUIDE:
 
