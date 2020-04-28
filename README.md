@@ -1,6 +1,6 @@
 # OBS-Supporter by finnole12
 
-this app starts up and configures obs automatically for selected games
+this app starts up and configures obs automatically for user-selected Applications
 
 USING:
   - obs-websocket plugin and 
