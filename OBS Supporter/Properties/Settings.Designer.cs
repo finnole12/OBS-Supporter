@@ -116,5 +116,17 @@ namespace OBS_Supporter.Properties {
                 this["savedOBSPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\"")]
+        public string savedTaskPath {
+            get {
+                return ((string)(this["savedTaskPath"]));
+            }
+            set {
+                this["savedTaskPath"] = value;
+            }
+        }
     }
 }

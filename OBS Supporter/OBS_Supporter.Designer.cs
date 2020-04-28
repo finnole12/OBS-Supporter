@@ -46,6 +46,7 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.pnlConsole = new System.Windows.Forms.Panel();
             this.pnlGeneral = new System.Windows.Forms.Panel();
+            this.cbxStartOnBoot = new System.Windows.Forms.CheckBox();
             this.btnRefreshPath = new System.Windows.Forms.Button();
             this.lblRecordingPath = new System.Windows.Forms.Label();
             this.pnlFixes = new System.Windows.Forms.Panel();
@@ -230,6 +231,7 @@
             // 
             this.pnlGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlGeneral.Controls.Add(this.cbxStartOnBoot);
             this.pnlGeneral.Controls.Add(this.btnRefreshPath);
             this.pnlGeneral.Controls.Add(this.lblRecordingPath);
             this.pnlGeneral.Controls.Add(this.lblInvalid);
@@ -243,9 +245,20 @@
             this.pnlGeneral.Size = new System.Drawing.Size(694, 138);
             this.pnlGeneral.TabIndex = 13;
             // 
+            // cbxStartOnBoot
+            // 
+            this.cbxStartOnBoot.AutoSize = true;
+            this.cbxStartOnBoot.Location = new System.Drawing.Point(6, 61);
+            this.cbxStartOnBoot.Name = "cbxStartOnBoot";
+            this.cbxStartOnBoot.Size = new System.Drawing.Size(88, 17);
+            this.cbxStartOnBoot.TabIndex = 12;
+            this.cbxStartOnBoot.Text = "Start on Boot";
+            this.cbxStartOnBoot.UseVisualStyleBackColor = true;
+            this.cbxStartOnBoot.CheckedChanged += new System.EventHandler(this.cbxStartOnBoot_CheckedChanged);
+            // 
             // btnRefreshPath
             // 
-            this.btnRefreshPath.Location = new System.Drawing.Point(6, 111);
+            this.btnRefreshPath.Location = new System.Drawing.Point(3, 111);
             this.btnRefreshPath.Name = "btnRefreshPath";
             this.btnRefreshPath.Size = new System.Drawing.Size(84, 23);
             this.btnRefreshPath.TabIndex = 11;
@@ -359,6 +372,7 @@
             // 
             // btnApply
             // 
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnApply.Location = new System.Drawing.Point(809, 318);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
@@ -427,6 +441,7 @@
         private System.Windows.Forms.Label lblRecordingPath;
         private System.Windows.Forms.Button btnRefreshPath;
         private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.CheckBox cbxStartOnBoot;
     }
 }
 

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Threading;
+using Microsoft.Win32.TaskScheduler;
 
 namespace OBS_Supporter
 {
@@ -20,12 +21,12 @@ namespace OBS_Supporter
         FileSystemWatcher OBS_RBDWatcher;
         public ManagementEventWatcher startWatch;
         private OBSScene[] sceneNames;
-        public String[] sceneNamesStr;
+        public string[] sceneNamesStr;
         private Boolean consoleVisible;
         private Boolean connected = false;
-        public String[][] allSceneGames = new String[0][];
+        public string[][] allSceneGames = new string[0][];
         public sceneConfigControlLine controlLineList;
-        public String missingGames = "Couldn't find the following Games:\n";
+        public string missingGames = "Couldn't find the following Games:\n";
 
         //Console Access-------------------------------
         private IntPtr handle;
@@ -72,9 +73,6 @@ namespace OBS_Supporter
                     MessageBox.Show(missingGames);
                 }
             }
-
-            //Properties.Settings.Default.savedUtilityProcesses = new System.Collections.ArrayList();
-            //Properties.Settings.Default.Save();
 
             System.Collections.ArrayList utilityApplications = Properties.Settings.Default.savedUtilityProcesses;
             if (utilityApplications != null) controlLineList.loadAllUtilityApplications(utilityApplications, 0);
@@ -140,6 +138,10 @@ namespace OBS_Supporter
                 cbxTeamspeakRelaunch.Checked = Properties.Settings.Default.savedTeamSpeakRelaunch;
                 cbxStrikeDriverRelaunch.Checked = Properties.Settings.Default.savedStrikeDriverRelaunch;
                 cbxSynapseRelaunch.Checked = Properties.Settings.Default.savedSynapseRelaunch;
+                string taskPath = Properties.Settings.Default.savedTaskPath;
+                //Properties.Settings.Default.savedTaskPath = "";
+                //Properties.Settings.Default.Save();
+                cbxStartOnBoot.Checked = taskPath != "";
                 tbxObsPath.Text = main.obsPath;
                 fillForm(connected);
                 refreshShowConsoleButton();
@@ -233,6 +235,17 @@ namespace OBS_Supporter
             Properties.Settings.Default.savedSynapseRelaunch = cbxSynapseRelaunch.Checked;
 
             Properties.Settings.Default.Save();
+
+            if (cbxStartOnBoot.Checked)
+            {
+                removeScheduleTask();
+                createScheduleTask();
+            }
+            else
+            {
+                removeScheduleTask();
+            }
+
             btnOK.Enabled = false;
         }
 
@@ -284,7 +297,7 @@ namespace OBS_Supporter
             return found;
         }
 
-        public void addSceneConfig(String[] games)
+        public void addSceneConfig(string[] games)
         {            
             controlLineList = controlLineList.addControlLine(games);
             pnlSceneConfig.Controls.AddRange(controlLineList.draw(controlLineList.getLength()));
@@ -421,6 +434,44 @@ namespace OBS_Supporter
                 OBS_RBDWatcher.Changed += main.RBDChanged;
             }
         }
+
+        private void createScheduleTask()
+        {
+            using (TaskService ts = new TaskService())
+            {
+                TaskDefinition td = ts.NewTask();
+                td.RegistrationInfo.Description = "launches OBS Supporter with logon";
+                td.Triggers.Add(new LogonTrigger());
+                td.Actions.Add(new ExecAction(System.Reflection.Assembly.GetEntryAssembly().Location, "c:\\test.log", null));
+                td.Principal.RunLevel = TaskRunLevel.Highest;
+                ts.RootFolder.RegisterTaskDefinition(@"OBS Supporter", td);
+            }
+            Properties.Settings.Default.savedTaskPath = "OBS Supporter";
+            Properties.Settings.Default.Save();
+        }
+
+        private void removeScheduleTask()
+        {
+            string taskPath = Properties.Settings.Default.savedTaskPath;
+            if (taskPath != "")
+            {
+                try
+                {
+                    using (TaskService ts = new TaskService())
+                    {
+                        ts.RootFolder.DeleteTask(taskPath);
+                    }
+                    Properties.Settings.Default.savedTaskPath = "";
+                    Properties.Settings.Default.Save();
+                }
+                catch { }
+            }
+        }
+
+        private void cbxStartOnBoot_CheckedChanged(object sender, EventArgs e)
+        {
+            btnOK.Enabled = true;
+        }
     }
 
     public class Main
@@ -442,10 +493,8 @@ namespace OBS_Supporter
         private string sceneChangedTo;
         private Boolean launchInit = false;
         private UInt32 currentAppID = 0;
-        private bool connectingInProgress = false;
         private Thread thread;
         private DateTime dateTime;
-
 
 
         public Main(frmOBSSupporter e)
@@ -673,7 +722,6 @@ namespace OBS_Supporter
         {
             writeInConsole(ConsoleColor.Green, "On-Connect-Event triggered");
             onConnectTriggered = true;
-            connectingInProgress = false;
             setScene();
             setProfile();
             supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onConnect(); }));
