@@ -132,9 +132,6 @@ namespace OBS_Supporter
             if (WindowState == FormWindowState.Normal)
             {
                 cbxShowConsoleOnLaunch.Checked = Properties.Settings.Default.savedConsoleOnLaunch;
-                cbxTeamspeakRelaunch.Checked = Properties.Settings.Default.savedTeamSpeakRelaunch;
-                cbxStrikeDriverRelaunch.Checked = Properties.Settings.Default.savedStrikeDriverRelaunch;
-                cbxSynapseRelaunch.Checked = Properties.Settings.Default.savedSynapseRelaunch;
                 cbxNotificationSound.Checked = Properties.Settings.Default.savedNotificationSound;
                 string taskPath = Properties.Settings.Default.savedTaskPath;
                 //Properties.Settings.Default.savedTaskPath = "";
@@ -221,9 +218,6 @@ namespace OBS_Supporter
             Properties.Settings.Default.savedOBSPath = main.obsPath;
             Properties.Settings.Default.savedUtilityProcesses = controlLineList.getAllUtilityApplications();
             Properties.Settings.Default.savedConsoleOnLaunch = cbxShowConsoleOnLaunch.Checked;
-            Properties.Settings.Default.savedTeamSpeakRelaunch = cbxTeamspeakRelaunch.Checked;
-            Properties.Settings.Default.savedStrikeDriverRelaunch = cbxStrikeDriverRelaunch.Checked;
-            Properties.Settings.Default.savedSynapseRelaunch = cbxSynapseRelaunch.Checked;
             Properties.Settings.Default.savedNotificationSound = cbxNotificationSound.Checked;
 
             Properties.Settings.Default.Save();
@@ -521,7 +515,6 @@ namespace OBS_Supporter
             _obs.Connected += onConnect;
             _obs.Disconnected += onDisconnect;
             _obs.SceneChanged += onSceneChange;
-            writeInConsole(ConsoleColor.Red, "OBS-events distributed");
             if (obsPath != "")
             {
                 createObsLnk();
@@ -542,26 +535,12 @@ namespace OBS_Supporter
         public void startWatch_EventArrived(object sender, EventArrivedEventArgs e)
         {
             string process = (string)e.NewEvent.Properties["ProcessName"].Value;
-            Console.WriteLine(process);
-
             string scene = supporterForm.controlLineList.getScene(process);
-            //if (process == "TslGame.exe")
-            //{
-            //    Thread.Sleep(3000);
-            //    gameStarted(scene);
-            //    if (Properties.Settings.Default.savedTeamSpeakRelaunch) Process.Start(@"Y:\Program Files\TeamSpeak 3 Client\ts3client_win64.exe");
-            //    if (Properties.Settings.Default.savedStrikeDriverRelaunch) Process.Start(@"Y:\Program Files\Mad Catz\S.T.R.I.K.E.TE\STRIKE_TE_Profiler.exe");
-            //    if (Properties.Settings.Default.savedSynapseRelaunch)
-            //    {
-            //        Process[] synapse = Process.GetProcessesByName("Razer Synapse 3.exe");
-            //        if (synapse.Length == 0) Process.Start(@"C:\Program Files (x86)\Razer\Synapse3\WPFUI\Framework\Razer Synapse 3 Host\Razer Synapse 3.exe");
-            //    }
-            //    return;
-            //}
+
             if (scene != null)
             {
                 currentAppID = (UInt32)e.NewEvent.Properties["ProcessID"].Value;
-                writeInConsole(ConsoleColor.Yellow, "currentGame: " + process + "(" + currentAppID + ")");
+                writeInConsole(ConsoleColor.White, "currentGame: " + process + "(" + currentAppID + ")");
                 gameStarted(scene);
                 supporterForm.controlLineList.startUtilityApplications();
             }
@@ -586,7 +565,6 @@ namespace OBS_Supporter
         public void stopWatch_EventArrived(object sender, EventArrivedEventArgs e)
         {
             UInt32 Process = (UInt32)e.NewEvent.Properties["ProcessID"].Value;
-            Console.WriteLine("Process stopped: {0}" + Process);
 
             if (Process == obsProcessID)
             {
@@ -715,7 +693,7 @@ namespace OBS_Supporter
             }
             catch (Exception e)
             {
-                writeInConsole(ConsoleColor.Red, "Failed Connecting!!!!!!!! for: " + e.Message);
+                writeInConsole(ConsoleColor.Red, "Failed Connecting: " + e.Message);
             }
             onConnectTriggered = true;
         }
