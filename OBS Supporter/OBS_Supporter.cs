@@ -166,7 +166,6 @@ namespace OBS_Supporter
             {
                 btnOK.Enabled = true;
                 btnApply.Enabled = true;
-                btnOpenConnect.Enabled = true;
             }
         }
         private void cbxShowConsoleOnBoot_CheckStateChanged(object sender, EventArgs e)
@@ -229,6 +228,7 @@ namespace OBS_Supporter
             main.removeObsLnk();
             main.createObsLnk();
             main.createObsProcess();
+            btnOpenConnect.Enabled = true;
 
             Properties.Settings.Default.savedSceneGames = controlLineList.getAllSceneGames();
             Properties.Settings.Default.savedOBSPath = main.obsPath;
@@ -492,6 +492,11 @@ namespace OBS_Supporter
             btnOK.Enabled = true;
             btnApply.Enabled = true;
         }
+
+        public void enableBtnOpenConnect()
+        {
+            btnOpenConnect.Enabled = true;
+        }
     }
 
     public class Main
@@ -499,8 +504,8 @@ namespace OBS_Supporter
         public OBSWebsocket _obs = new OBSWebsocket();
         private string isScene;
         private string isProfile;
-        private string wantScene = "Desktop";
-        private string wantProfile = "21:9";
+        private string wantScene = "";
+        private string wantProfile = "";
         private bool replayBufferState = false;
         private frmOBSSupporter supporterForm;
         public WshShell shell1;
@@ -637,14 +642,17 @@ namespace OBS_Supporter
             refreshSceneName();
             if (isScene != wantScene)
             {
-                _obs.SetCurrentScene(wantScene);
+                if (wantScene != "")
+                {
+                    _obs.SetCurrentScene(wantScene);
+                }
             }
         }
 
         private void setProfile()
         {
             refreshProfileName();
-            if (isProfile != wantProfile)
+            if (isProfile != wantProfile && wantProfile != "")
             {
                 _obs.StopReplayBuffer();
                 _obs.SetCurrentProfile(wantProfile);
@@ -694,6 +702,7 @@ namespace OBS_Supporter
         {
             obsProcess = new Process();
             obsProcess.StartInfo.FileName = shortcut1.FullName;
+            supporterForm.enableBtnOpenConnect();
         }
 
         public void closeObs(OBSWebsocket sender, OutputState outputState)
@@ -711,9 +720,9 @@ namespace OBS_Supporter
             {
                 _obs.Connect("ws://127.0.0.1:4444", "");
             }
-            catch
+            catch (Exception e)
             {
-                writeInConsole(ConsoleColor.Red, "Failed Connecting!!!!!!!!");
+                writeInConsole(ConsoleColor.Red, "Failed Connecting!!!!!!!! for: " + e.Message);
             }
             onConnectTriggered = true;
         }
