@@ -46,6 +46,8 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.pnlConsole = new System.Windows.Forms.Panel();
             this.pnlGeneral = new System.Windows.Forms.Panel();
+            this.llblTest = new System.Windows.Forms.LinkLabel();
+            this.cbxNotificationSound = new System.Windows.Forms.CheckBox();
             this.cbxStartOnBoot = new System.Windows.Forms.CheckBox();
             this.btnRefreshPath = new System.Windows.Forms.Button();
             this.lblRecordingPath = new System.Windows.Forms.Label();
@@ -185,6 +187,7 @@
             // btnOpenConnect
             // 
             this.btnOpenConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenConnect.Enabled = false;
             this.btnOpenConnect.Location = new System.Drawing.Point(587, 35);
             this.btnOpenConnect.Name = "btnOpenConnect";
             this.btnOpenConnect.Size = new System.Drawing.Size(104, 23);
@@ -231,6 +234,8 @@
             // 
             this.pnlGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlGeneral.Controls.Add(this.llblTest);
+            this.pnlGeneral.Controls.Add(this.cbxNotificationSound);
             this.pnlGeneral.Controls.Add(this.cbxStartOnBoot);
             this.pnlGeneral.Controls.Add(this.btnRefreshPath);
             this.pnlGeneral.Controls.Add(this.lblRecordingPath);
@@ -242,8 +247,30 @@
             this.pnlGeneral.Controls.Add(this.lblConnection);
             this.pnlGeneral.Location = new System.Drawing.Point(190, 23);
             this.pnlGeneral.Name = "pnlGeneral";
-            this.pnlGeneral.Size = new System.Drawing.Size(694, 138);
+            this.pnlGeneral.Size = new System.Drawing.Size(694, 219);
             this.pnlGeneral.TabIndex = 13;
+            // 
+            // llblTest
+            // 
+            this.llblTest.AutoSize = true;
+            this.llblTest.Location = new System.Drawing.Point(245, 83);
+            this.llblTest.Name = "llblTest";
+            this.llblTest.Size = new System.Drawing.Size(24, 13);
+            this.llblTest.TabIndex = 14;
+            this.llblTest.TabStop = true;
+            this.llblTest.Text = "test";
+            this.llblTest.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llblTest_LinkClicked);
+            // 
+            // cbxNotificationSound
+            // 
+            this.cbxNotificationSound.AutoSize = true;
+            this.cbxNotificationSound.Location = new System.Drawing.Point(6, 82);
+            this.cbxNotificationSound.Name = "cbxNotificationSound";
+            this.cbxNotificationSound.Size = new System.Drawing.Size(233, 17);
+            this.cbxNotificationSound.TabIndex = 13;
+            this.cbxNotificationSound.Text = "Notification-Sound on successful Recording";
+            this.cbxNotificationSound.UseVisualStyleBackColor = true;
+            this.cbxNotificationSound.CheckedChanged += new System.EventHandler(this.cbxNotificationSound_CheckedChanged);
             // 
             // cbxStartOnBoot
             // 
@@ -258,7 +285,7 @@
             // 
             // btnRefreshPath
             // 
-            this.btnRefreshPath.Location = new System.Drawing.Point(3, 111);
+            this.btnRefreshPath.Location = new System.Drawing.Point(6, 193);
             this.btnRefreshPath.Name = "btnRefreshPath";
             this.btnRefreshPath.Size = new System.Drawing.Size(84, 23);
             this.btnRefreshPath.TabIndex = 11;
@@ -269,7 +296,7 @@
             // lblRecordingPath
             // 
             this.lblRecordingPath.AutoSize = true;
-            this.lblRecordingPath.Location = new System.Drawing.Point(3, 95);
+            this.lblRecordingPath.Location = new System.Drawing.Point(7, 177);
             this.lblRecordingPath.Name = "lblRecordingPath";
             this.lblRecordingPath.Size = new System.Drawing.Size(87, 13);
             this.lblRecordingPath.TabIndex = 10;
@@ -386,14 +413,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 353);
-            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.pnlGeneral);
-            this.Controls.Add(this.btnFixes);
+            this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlConsole);
+            this.Controls.Add(this.btnApply);
+            this.Controls.Add(this.btnFixes);
             this.Controls.Add(this.btnSceneConfig);
             this.Controls.Add(this.btnConsole);
             this.Controls.Add(this.btnGeneral);
-            this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlFixes);
             this.Controls.Add(this.btnOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -442,6 +469,8 @@
         private System.Windows.Forms.Button btnRefreshPath;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.CheckBox cbxStartOnBoot;
+        private System.Windows.Forms.LinkLabel llblTest;
+        private System.Windows.Forms.CheckBox cbxNotificationSound;
     }
 }
 

@@ -164,6 +164,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="OBS_Supporter_Logo.ico" />
+    <None Include="Resources\AirPlanDing30Percent.wav" />
+    <None Include="Resources\Air plane Ding - Copy.wav" />
+    <None Include="Resources\Air plane Ding.mp3" />
+    <None Include="Resources\1-22 Sins of the Father.mp3" />
     <None Include="Resources\ajo8uyjgyn5x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

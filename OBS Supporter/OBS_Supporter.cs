@@ -76,8 +76,6 @@ namespace OBS_Supporter
 
             System.Collections.ArrayList utilityApplications = Properties.Settings.Default.savedUtilityProcesses;
             if (utilityApplications != null) controlLineList.loadAllUtilityApplications(utilityApplications, 0);
-
-            btnOK.Enabled = false;
         }
     
             //distributes Event-Watchers
@@ -138,6 +136,7 @@ namespace OBS_Supporter
                 cbxTeamspeakRelaunch.Checked = Properties.Settings.Default.savedTeamSpeakRelaunch;
                 cbxStrikeDriverRelaunch.Checked = Properties.Settings.Default.savedStrikeDriverRelaunch;
                 cbxSynapseRelaunch.Checked = Properties.Settings.Default.savedSynapseRelaunch;
+                cbxNotificationSound.Checked = Properties.Settings.Default.savedNotificationSound;
                 string taskPath = Properties.Settings.Default.savedTaskPath;
                 //Properties.Settings.Default.savedTaskPath = "";
                 //Properties.Settings.Default.Save();
@@ -151,6 +150,8 @@ namespace OBS_Supporter
                     allSceneGames = new String[1][];
                     allSceneGames[0] = new String[0];
                 } //on first Time
+                btnOK.Enabled = false;
+                btnApply.Enabled = false;
             }
         }
 
@@ -164,11 +165,14 @@ namespace OBS_Supporter
             else if (tbxObsPath.Text != main.obsPath)
             {
                 btnOK.Enabled = true;
+                btnApply.Enabled = true;
+                btnOpenConnect.Enabled = true;
             }
         }
         private void cbxShowConsoleOnBoot_CheckStateChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
+            btnApply.Enabled = true;
         }
         private void cbxTeamspeakRelaunch_CheckedChanged(object sender, EventArgs e)
         {
@@ -233,6 +237,7 @@ namespace OBS_Supporter
             Properties.Settings.Default.savedTeamSpeakRelaunch = cbxTeamspeakRelaunch.Checked;
             Properties.Settings.Default.savedStrikeDriverRelaunch = cbxStrikeDriverRelaunch.Checked;
             Properties.Settings.Default.savedSynapseRelaunch = cbxSynapseRelaunch.Checked;
+            Properties.Settings.Default.savedNotificationSound = cbxNotificationSound.Checked;
 
             Properties.Settings.Default.Save();
 
@@ -247,6 +252,7 @@ namespace OBS_Supporter
             }
 
             btnOK.Enabled = false;
+            btnApply.Enabled = false;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -263,6 +269,8 @@ namespace OBS_Supporter
         private void btnAddSceneConfig_Click(object sender, EventArgs e)
         {
             addSceneConfig(null);
+            btnOK.Enabled = true;
+            btnApply.Enabled = true;
         }
 
         private void btnAddSceneConfig_LocationChanged(object sender, EventArgs e)
@@ -471,6 +479,18 @@ namespace OBS_Supporter
         private void cbxStartOnBoot_CheckedChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
+            btnApply.Enabled = true;
+        }
+
+        private void llblTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            main.playNotificationSound();
+        }
+
+        private void cbxNotificationSound_CheckedChanged(object sender, EventArgs e)
+        {
+            btnOK.Enabled = true;
+            btnApply.Enabled = true;
         }
     }
 
@@ -508,6 +528,7 @@ namespace OBS_Supporter
             {
                 createObsLnk();
                 createObsProcess();
+                supporterForm.Enabled = true;
             }
         }
 
@@ -702,20 +723,27 @@ namespace OBS_Supporter
         {
             if (sceneChangedTo != newSceneName)
             {
-                sceneChangedTo = newSceneName;
-                MediaPlayer mPlayer = new MediaPlayer();
-                mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\TTS\Scene was changed to " + newSceneName + ".mp3"));
-                mPlayer.Volume = 0.2;
-                mPlayer.Play();
+                //sceneChangedTo = newSceneName;
+                //MediaPlayer mPlayer = new MediaPlayer();
+                //mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\TTS\Scene was changed to " + newSceneName + ".mp3"));
+                //mPlayer.Volume = 0.2;
+                //mPlayer.Play();
             }
         }
 
         public void RBDChanged(object sender, FileSystemEventArgs e)
         {
-            MediaPlayer mPlayer = new MediaPlayer();
-            mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\Sound FX\Air Plane Ding-SoundBible.com-496729130.mp3"));
-            mPlayer.Volume = 0.1;
-            mPlayer.Play();
+            if (Properties.Settings.Default.savedNotificationSound)
+            {
+                playNotificationSound();
+            }
+        }
+
+        public void playNotificationSound()
+        {
+            System.Media.SoundPlayer sPlayer = new System.Media.SoundPlayer();
+            sPlayer.Stream = Properties.Resources.AirPlanDing30Percent;
+            sPlayer.Play();
         }
 
         private void onConnect(object sender, EventArgs e)

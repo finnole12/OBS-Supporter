@@ -128,5 +128,17 @@ namespace OBS_Supporter.Properties {
                 this["savedTaskPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool savedNotificationSound {
+            get {
+                return ((bool)(this["savedNotificationSound"]));
+            }
+            set {
+                this["savedNotificationSound"] = value;
+            }
+        }
     }
 }
