@@ -37,9 +37,6 @@
             this.lblInvalid = new System.Windows.Forms.Label();
             this.cbxShowConsoleOnLaunch = new System.Windows.Forms.CheckBox();
             this.btnShowConsole = new System.Windows.Forms.Button();
-            this.cbxStrikeDriverRelaunch = new System.Windows.Forms.CheckBox();
-            this.cbxSynapseRelaunch = new System.Windows.Forms.CheckBox();
-            this.cbxTeamspeakRelaunch = new System.Windows.Forms.CheckBox();
             this.btnAddSceneConfig = new System.Windows.Forms.Button();
             this.btnOpenConnect = new System.Windows.Forms.Button();
             this.lblConnection = new System.Windows.Forms.Label();
@@ -52,6 +49,7 @@
             this.btnRefreshPath = new System.Windows.Forms.Button();
             this.lblRecordingPath = new System.Windows.Forms.Label();
             this.pnlFixes = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
             this.pnlSceneConfig = new System.Windows.Forms.Panel();
             this.btnGeneral = new System.Windows.Forms.Button();
@@ -60,7 +58,6 @@
             this.btnSceneConfig = new System.Windows.Forms.Button();
             this.btnFixes = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.pnlConsole.SuspendLayout();
             this.pnlGeneral.SuspendLayout();
             this.pnlFixes.SuspendLayout();
@@ -139,39 +136,6 @@
             this.btnShowConsole.Text = "Click to hide Console";
             this.btnShowConsole.UseVisualStyleBackColor = true;
             this.btnShowConsole.Click += new System.EventHandler(this.btnShowConsole_Click);
-            // 
-            // cbxStrikeDriverRelaunch
-            // 
-            this.cbxStrikeDriverRelaunch.AutoSize = true;
-            this.cbxStrikeDriverRelaunch.Location = new System.Drawing.Point(3, 49);
-            this.cbxStrikeDriverRelaunch.Name = "cbxStrikeDriverRelaunch";
-            this.cbxStrikeDriverRelaunch.Size = new System.Drawing.Size(172, 17);
-            this.cbxStrikeDriverRelaunch.TabIndex = 2;
-            this.cbxStrikeDriverRelaunch.Text = "S.T.R.I.K.E TE Driver relaunch";
-            this.cbxStrikeDriverRelaunch.UseVisualStyleBackColor = true;
-            this.cbxStrikeDriverRelaunch.CheckedChanged += new System.EventHandler(this.cbxStrikeDriverRelaunch_CheckedChanged);
-            // 
-            // cbxSynapseRelaunch
-            // 
-            this.cbxSynapseRelaunch.AutoSize = true;
-            this.cbxSynapseRelaunch.Location = new System.Drawing.Point(3, 26);
-            this.cbxSynapseRelaunch.Name = "cbxSynapseRelaunch";
-            this.cbxSynapseRelaunch.Size = new System.Drawing.Size(142, 17);
-            this.cbxSynapseRelaunch.TabIndex = 1;
-            this.cbxSynapseRelaunch.Text = "Razor Synapse relaunch";
-            this.cbxSynapseRelaunch.UseVisualStyleBackColor = true;
-            this.cbxSynapseRelaunch.CheckedChanged += new System.EventHandler(this.cbxSynapseRelaunch_CheckedChanged);
-            // 
-            // cbxTeamspeakRelaunch
-            // 
-            this.cbxTeamspeakRelaunch.AutoSize = true;
-            this.cbxTeamspeakRelaunch.Location = new System.Drawing.Point(3, 3);
-            this.cbxTeamspeakRelaunch.Name = "cbxTeamspeakRelaunch";
-            this.cbxTeamspeakRelaunch.Size = new System.Drawing.Size(126, 17);
-            this.cbxTeamspeakRelaunch.TabIndex = 0;
-            this.cbxTeamspeakRelaunch.Text = "Teamspeak relaunch";
-            this.cbxTeamspeakRelaunch.UseVisualStyleBackColor = true;
-            this.cbxTeamspeakRelaunch.CheckedChanged += new System.EventHandler(this.cbxTeamspeakRelaunch_CheckedChanged);
             // 
             // btnAddSceneConfig
             // 
@@ -310,18 +274,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlFixes.Controls.Add(this.label1);
             this.pnlFixes.Controls.Add(this.btnReset);
-            this.pnlFixes.Controls.Add(this.cbxStrikeDriverRelaunch);
-            this.pnlFixes.Controls.Add(this.cbxTeamspeakRelaunch);
-            this.pnlFixes.Controls.Add(this.cbxSynapseRelaunch);
             this.pnlFixes.Location = new System.Drawing.Point(190, 23);
             this.pnlFixes.Name = "pnlFixes";
             this.pnlFixes.Size = new System.Drawing.Size(694, 122);
             this.pnlFixes.TabIndex = 14;
             this.pnlFixes.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(112, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "irreversable";
+            // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(3, 82);
+            this.btnReset.Location = new System.Drawing.Point(6, 3);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(100, 23);
             this.btnReset.TabIndex = 3;
@@ -422,15 +392,6 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(109, 87);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "irreversable";
-            // 
             // frmOBSSupporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,9 +436,6 @@
         private System.Windows.Forms.Button btnOpenConnect;
         private System.Windows.Forms.Label lblConnection;
         private System.Windows.Forms.Button btnAddSceneConfig;
-        private System.Windows.Forms.CheckBox cbxStrikeDriverRelaunch;
-        private System.Windows.Forms.CheckBox cbxSynapseRelaunch;
-        private System.Windows.Forms.CheckBox cbxTeamspeakRelaunch;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Panel pnlConsole;
         private System.Windows.Forms.Panel pnlGeneral;

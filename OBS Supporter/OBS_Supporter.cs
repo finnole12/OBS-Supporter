@@ -172,18 +172,6 @@ namespace OBS_Supporter
             btnOK.Enabled = true;
             btnApply.Enabled = true;
         }
-        private void cbxTeamspeakRelaunch_CheckedChanged(object sender, EventArgs e)
-        {
-            btnOK.Enabled = true;
-        }
-        private void cbxStrikeDriverRelaunch_CheckedChanged(object sender, EventArgs e)
-        {
-            btnOK.Enabled = true;
-        }
-        private void cbxSynapseRelaunch_CheckedChanged(object sender, EventArgs e)
-        {
-            btnOK.Enabled = true;
-        }
         public void pnlControlRemoved(object sender, ControlEventArgs e)
         {
             btnOK.Enabled = false;
@@ -524,6 +512,7 @@ namespace OBS_Supporter
         private UInt32 currentAppID = 0;
         private Thread thread;
         private DateTime dateTime;
+        private string sceneChangedTo;
 
 
         public Main(frmOBSSupporter e)
@@ -736,11 +725,7 @@ namespace OBS_Supporter
         {
             if (sceneChangedTo != newSceneName)
             {
-                //sceneChangedTo = newSceneName;
-                //MediaPlayer mPlayer = new MediaPlayer();
-                //mPlayer.Open(new Uri(@"Y:\Users\Fnolikopternator\Musik\Non-music\TTS\Scene was changed to " + newSceneName + ".mp3"));
-                //mPlayer.Volume = 0.2;
-                //mPlayer.Play();
+                //sound for scenechange
             }
         }
 
