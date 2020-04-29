@@ -17,7 +17,6 @@ namespace OBS_Supporter
     {
         //Variables---------------------------------------------------------------------------------------------------------------
         private Main main;
-        //FileSystemWatcher OBS_RBDWatcher = new FileSystemWatcher(@"Y:\Users\Fnolikopternator\Videos\SPM");
         FileSystemWatcher OBS_RBDWatcher;
         public ManagementEventWatcher startWatch;
         private OBSScene[] sceneNames;
@@ -497,6 +496,12 @@ namespace OBS_Supporter
         {
             btnOpenConnect.Enabled = true;
         }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+            Properties.Settings.Default.Save();
+        }
     }
 
     public class Main
@@ -515,7 +520,6 @@ namespace OBS_Supporter
         public string obsPath = Properties.Settings.Default.savedOBSPath;
         private Boolean onConnectTriggered = false;
         private Boolean opened = false;
-        private string sceneChangedTo;
         private Boolean launchInit = false;
         private UInt32 currentAppID = 0;
         private Thread thread;

@@ -52,6 +52,7 @@
             this.btnRefreshPath = new System.Windows.Forms.Button();
             this.lblRecordingPath = new System.Windows.Forms.Label();
             this.pnlFixes = new System.Windows.Forms.Panel();
+            this.btnReset = new System.Windows.Forms.Button();
             this.pnlSceneConfig = new System.Windows.Forms.Panel();
             this.btnGeneral = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -59,6 +60,7 @@
             this.btnSceneConfig = new System.Windows.Forms.Button();
             this.btnFixes = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.pnlConsole.SuspendLayout();
             this.pnlGeneral.SuspendLayout();
             this.pnlFixes.SuspendLayout();
@@ -306,14 +308,26 @@
             // 
             this.pnlFixes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlFixes.Controls.Add(this.label1);
+            this.pnlFixes.Controls.Add(this.btnReset);
             this.pnlFixes.Controls.Add(this.cbxStrikeDriverRelaunch);
             this.pnlFixes.Controls.Add(this.cbxTeamspeakRelaunch);
             this.pnlFixes.Controls.Add(this.cbxSynapseRelaunch);
             this.pnlFixes.Location = new System.Drawing.Point(190, 23);
             this.pnlFixes.Name = "pnlFixes";
-            this.pnlFixes.Size = new System.Drawing.Size(694, 76);
+            this.pnlFixes.Size = new System.Drawing.Size(694, 122);
             this.pnlFixes.TabIndex = 14;
             this.pnlFixes.Visible = false;
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(3, 82);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(100, 23);
+            this.btnReset.TabIndex = 3;
+            this.btnReset.Text = "reset All Settings";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // pnlSceneConfig
             // 
@@ -408,11 +422,21 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(109, 87);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "irreversable";
+            // 
             // frmOBSSupporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 353);
+            this.Controls.Add(this.pnlFixes);
             this.Controls.Add(this.pnlGeneral);
             this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlConsole);
@@ -421,7 +445,6 @@
             this.Controls.Add(this.btnSceneConfig);
             this.Controls.Add(this.btnConsole);
             this.Controls.Add(this.btnGeneral);
-            this.Controls.Add(this.pnlFixes);
             this.Controls.Add(this.btnOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOBSSupporter";
@@ -471,6 +494,8 @@
         private System.Windows.Forms.CheckBox cbxStartOnBoot;
         private System.Windows.Forms.LinkLabel llblTest;
         private System.Windows.Forms.CheckBox cbxNotificationSound;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Label label1;
     }
 }
 
