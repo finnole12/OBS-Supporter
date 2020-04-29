@@ -11,7 +11,9 @@ INSTALL GUIDE:
 
 0. install obs
   1. install the obs-websocket plugin https://github.com/Palakis/obs-websocket
-  2. launch my app from anywhere and browse for your obs64.exe in the obs install directory.
+  2. launch our app from anywhere and browse for your obs64.exe in the General Settings-tab
+  3. setup the replay-buffer in obs with your preferred settings.
+  
   
  USE GUIDE:
   1. once installed click "open and connect" to startup obs.
