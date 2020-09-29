@@ -103,6 +103,8 @@ namespace OBS_Supporter
             {
                 lblConnection.Text = "*not connected";
                 lblConnection.ForeColor = System.Drawing.Color.Red;
+                pnlSceneConfig.Enabled = false;
+                connected = false;
             }
         }
 
@@ -349,11 +351,7 @@ namespace OBS_Supporter
         public void onDisconnect()
         {
             main.writeInConsole(ConsoleColor.Red, "supporterondisconnect");
-            lblConnection.Text = "not connected";
-            lblConnection.ForeColor = System.Drawing.Color.Red;
-
-            pnlSceneConfig.Enabled = false;
-            connected = false;
+            fillForm(false);
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
