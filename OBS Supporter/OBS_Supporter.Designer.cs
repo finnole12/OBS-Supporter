@@ -52,16 +52,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
             this.pnlSceneConfig = new System.Windows.Forms.Panel();
-            this.btnGeneral = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnConsole = new System.Windows.Forms.Button();
-            this.btnSceneConfig = new System.Windows.Forms.Button();
-            this.btnFixes = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnFixes = new System.Windows.Forms.Button();
+            this.btnSceneConfig = new System.Windows.Forms.Button();
+            this.btnConsole = new System.Windows.Forms.Button();
+            this.btnGeneral = new System.Windows.Forms.Button();
+            this.obS_StyleTextBox1 = new OBS_Supporter.OBS_StyleTextBox();
             this.pnlConsole.SuspendLayout();
             this.pnlGeneral.SuspendLayout();
             this.pnlFixes.SuspendLayout();
             this.pnlSceneConfig.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // nfiTrayIcon
@@ -84,10 +87,12 @@
             // 
             this.tbxObsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxObsPath.BackColor = System.Drawing.SystemColors.Window;
-            this.tbxObsPath.Location = new System.Drawing.Point(78, 8);
+            this.tbxObsPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.tbxObsPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbxObsPath.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.tbxObsPath.Location = new System.Drawing.Point(78, 11);
             this.tbxObsPath.Name = "tbxObsPath";
-            this.tbxObsPath.Size = new System.Drawing.Size(532, 20);
+            this.tbxObsPath.Size = new System.Drawing.Size(532, 13);
             this.tbxObsPath.TabIndex = 1;
             this.tbxObsPath.TextChanged += new System.EventHandler(this.tbxObsPath_TextChanged);
             // 
@@ -230,6 +235,7 @@
             // cbxNotificationSound
             // 
             this.cbxNotificationSound.AutoSize = true;
+            this.cbxNotificationSound.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.cbxNotificationSound.Location = new System.Drawing.Point(6, 82);
             this.cbxNotificationSound.Name = "cbxNotificationSound";
             this.cbxNotificationSound.Size = new System.Drawing.Size(233, 17);
@@ -241,6 +247,7 @@
             // cbxStartOnBoot
             // 
             this.cbxStartOnBoot.AutoSize = true;
+            this.cbxStartOnBoot.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.cbxStartOnBoot.Location = new System.Drawing.Point(6, 61);
             this.cbxStartOnBoot.Name = "cbxStartOnBoot";
             this.cbxStartOnBoot.Size = new System.Drawing.Size(88, 17);
@@ -262,6 +269,7 @@
             // lblRecordingPath
             // 
             this.lblRecordingPath.AutoSize = true;
+            this.lblRecordingPath.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.lblRecordingPath.Location = new System.Drawing.Point(7, 177);
             this.lblRecordingPath.Name = "lblRecordingPath";
             this.lblRecordingPath.Size = new System.Drawing.Size(87, 13);
@@ -310,76 +318,14 @@
             this.pnlSceneConfig.TabIndex = 15;
             this.pnlSceneConfig.Visible = false;
             // 
-            // btnGeneral
-            // 
-            this.btnGeneral.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnGeneral.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGeneral.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGeneral.ImageIndex = 0;
-            this.btnGeneral.ImageList = this.imageList1;
-            this.btnGeneral.Location = new System.Drawing.Point(13, 23);
-            this.btnGeneral.Name = "btnGeneral";
-            this.btnGeneral.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnGeneral.Size = new System.Drawing.Size(171, 23);
-            this.btnGeneral.TabIndex = 16;
-            this.btnGeneral.Text = "         General";
-            this.btnGeneral.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnGeneral.UseVisualStyleBackColor = true;
-            this.btnGeneral.Click += new System.EventHandler(this.btnGeneral_Click);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "69524.png");
+            this.imageList1.Images.SetKeyName(0, "icon-ios7-gear-512.png");
             this.imageList1.Images.SetKeyName(1, "images.png");
             this.imageList1.Images.SetKeyName(2, "1492790974-93list_84195.png");
             this.imageList1.Images.SetKeyName(3, "open-wrench-tool-silhouette_icon-icons.com_73472.png");
-            // 
-            // btnConsole
-            // 
-            this.btnConsole.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnConsole.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConsole.ImageIndex = 1;
-            this.btnConsole.ImageList = this.imageList1;
-            this.btnConsole.Location = new System.Drawing.Point(13, 46);
-            this.btnConsole.Name = "btnConsole";
-            this.btnConsole.Size = new System.Drawing.Size(171, 23);
-            this.btnConsole.TabIndex = 17;
-            this.btnConsole.Text = "         Console";
-            this.btnConsole.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnConsole.UseVisualStyleBackColor = true;
-            this.btnConsole.Click += new System.EventHandler(this.btnConsole_Click);
-            // 
-            // btnSceneConfig
-            // 
-            this.btnSceneConfig.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSceneConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSceneConfig.ImageIndex = 2;
-            this.btnSceneConfig.ImageList = this.imageList1;
-            this.btnSceneConfig.Location = new System.Drawing.Point(13, 69);
-            this.btnSceneConfig.Name = "btnSceneConfig";
-            this.btnSceneConfig.Size = new System.Drawing.Size(171, 23);
-            this.btnSceneConfig.TabIndex = 18;
-            this.btnSceneConfig.Text = "         Scene Configuration";
-            this.btnSceneConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSceneConfig.UseVisualStyleBackColor = true;
-            this.btnSceneConfig.Click += new System.EventHandler(this.btnSceneConfig_Click);
-            // 
-            // btnFixes
-            // 
-            this.btnFixes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnFixes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFixes.ImageIndex = 3;
-            this.btnFixes.ImageList = this.imageList1;
-            this.btnFixes.Location = new System.Drawing.Point(13, 92);
-            this.btnFixes.Name = "btnFixes";
-            this.btnFixes.Size = new System.Drawing.Size(171, 23);
-            this.btnFixes.TabIndex = 19;
-            this.btnFixes.Text = "         Fixes";
-            this.btnFixes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnFixes.UseVisualStyleBackColor = true;
-            this.btnFixes.Click += new System.EventHandler(this.btnFixes_Click);
             // 
             // btnApply
             // 
@@ -392,22 +338,127 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.panel1.Controls.Add(this.btnFixes);
+            this.panel1.Controls.Add(this.btnSceneConfig);
+            this.panel1.Controls.Add(this.btnConsole);
+            this.panel1.Controls.Add(this.btnGeneral);
+            this.panel1.Location = new System.Drawing.Point(13, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(130, 329);
+            this.panel1.TabIndex = 21;
+            // 
+            // btnFixes
+            // 
+            this.btnFixes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.btnFixes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnFixes.FlatAppearance.BorderSize = 0;
+            this.btnFixes.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnFixes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.btnFixes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFixes.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnFixes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFixes.ImageIndex = 3;
+            this.btnFixes.ImageList = this.imageList1;
+            this.btnFixes.Location = new System.Drawing.Point(0, 150);
+            this.btnFixes.Name = "btnFixes";
+            this.btnFixes.Size = new System.Drawing.Size(130, 50);
+            this.btnFixes.TabIndex = 20;
+            this.btnFixes.Text = "       Fixes";
+            this.btnFixes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnFixes.UseVisualStyleBackColor = false;
+            this.btnFixes.Click += new System.EventHandler(this.btnFixes_Click);
+            // 
+            // btnSceneConfig
+            // 
+            this.btnSceneConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.btnSceneConfig.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnSceneConfig.FlatAppearance.BorderSize = 0;
+            this.btnSceneConfig.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSceneConfig.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.btnSceneConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSceneConfig.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnSceneConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSceneConfig.ImageIndex = 2;
+            this.btnSceneConfig.ImageList = this.imageList1;
+            this.btnSceneConfig.Location = new System.Drawing.Point(0, 100);
+            this.btnSceneConfig.Name = "btnSceneConfig";
+            this.btnSceneConfig.Size = new System.Drawing.Size(130, 50);
+            this.btnSceneConfig.TabIndex = 19;
+            this.btnSceneConfig.Text = "       Scene                  Configuration";
+            this.btnSceneConfig.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSceneConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSceneConfig.UseVisualStyleBackColor = false;
+            this.btnSceneConfig.Click += new System.EventHandler(this.btnSceneConfig_Click);
+            // 
+            // btnConsole
+            // 
+            this.btnConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.btnConsole.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnConsole.FlatAppearance.BorderSize = 0;
+            this.btnConsole.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnConsole.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.btnConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsole.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnConsole.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConsole.ImageIndex = 1;
+            this.btnConsole.ImageList = this.imageList1;
+            this.btnConsole.Location = new System.Drawing.Point(0, 50);
+            this.btnConsole.Name = "btnConsole";
+            this.btnConsole.Size = new System.Drawing.Size(130, 50);
+            this.btnConsole.TabIndex = 18;
+            this.btnConsole.Text = "       Console";
+            this.btnConsole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnConsole.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConsole.UseVisualStyleBackColor = false;
+            this.btnConsole.Click += new System.EventHandler(this.btnConsole_Click);
+            // 
+            // btnGeneral
+            // 
+            this.btnGeneral.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.btnGeneral.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnGeneral.FlatAppearance.BorderSize = 0;
+            this.btnGeneral.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnGeneral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.btnGeneral.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGeneral.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnGeneral.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGeneral.ImageIndex = 0;
+            this.btnGeneral.ImageList = this.imageList1;
+            this.btnGeneral.Location = new System.Drawing.Point(0, 0);
+            this.btnGeneral.Name = "btnGeneral";
+            this.btnGeneral.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnGeneral.Size = new System.Drawing.Size(130, 50);
+            this.btnGeneral.TabIndex = 17;
+            this.btnGeneral.Text = "       General";
+            this.btnGeneral.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGeneral.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnGeneral.UseVisualStyleBackColor = false;
+            this.btnGeneral.Click += new System.EventHandler(this.btnGeneral_Click);
+            // 
+            // obS_StyleTextBox1
+            // 
+            this.obS_StyleTextBox1.Location = new System.Drawing.Point(190, 262);
+            this.obS_StyleTextBox1.Name = "obS_StyleTextBox1";
+            this.obS_StyleTextBox1.Size = new System.Drawing.Size(289, 57);
+            this.obS_StyleTextBox1.TabIndex = 22;
+            // 
             // frmOBSSupporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(896, 353);
+            this.Controls.Add(this.obS_StyleTextBox1);
+            this.Controls.Add(this.pnlGeneral);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlFixes);
-            this.Controls.Add(this.pnlGeneral);
             this.Controls.Add(this.pnlConsole);
             this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnFixes);
-            this.Controls.Add(this.btnSceneConfig);
-            this.Controls.Add(this.btnConsole);
-            this.Controls.Add(this.btnGeneral);
             this.Controls.Add(this.btnOK);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOBSSupporter";
             this.Text = "OBS Supporter";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
@@ -420,6 +471,7 @@
             this.pnlFixes.ResumeLayout(false);
             this.pnlFixes.PerformLayout();
             this.pnlSceneConfig.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -441,11 +493,7 @@
         private System.Windows.Forms.Panel pnlGeneral;
         private System.Windows.Forms.Panel pnlFixes;
         private System.Windows.Forms.Panel pnlSceneConfig;
-        private System.Windows.Forms.Button btnGeneral;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.Button btnConsole;
-        private System.Windows.Forms.Button btnSceneConfig;
-        private System.Windows.Forms.Button btnFixes;
         private System.Windows.Forms.Label lblRecordingPath;
         private System.Windows.Forms.Button btnRefreshPath;
         private System.Windows.Forms.Button btnApply;
@@ -454,6 +502,12 @@
         private System.Windows.Forms.CheckBox cbxNotificationSound;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnSceneConfig;
+        private System.Windows.Forms.Button btnConsole;
+        private System.Windows.Forms.Button btnGeneral;
+        private System.Windows.Forms.Button btnFixes;
+        private OBS_StyleTextBox obS_StyleTextBox1;
     }
 }
 

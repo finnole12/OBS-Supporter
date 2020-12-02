@@ -88,6 +88,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KGySoft.CoreLibraries, Version=5.4.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
+      <HintPath>..\packages\KGySoft.CoreLibraries.5.4.0\lib\net45\KGySoft.CoreLibraries.dll</HintPath>
+    </Reference>
+    <Reference Include="KGySoft.Drawing, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
+      <HintPath>..\packages\KGySoft.Drawing.5.3.0\lib\net45\KGySoft.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.8.18.0, Culture=neutral, PublicKeyToken=c416bc1b32d97233, processorArchitecture=MSIL">
       <HintPath>..\packages\TaskScheduler.2.8.18\lib\net452\Microsoft.Win32.TaskScheduler.dll</HintPath>
     </Reference>
@@ -98,6 +104,7 @@
       <HintPath>..\packages\obs-websocket-dotnet.4.2.0-beta3\lib\net40\obs-websocket-dotnet.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
@@ -115,10 +122,17 @@
       <HintPath>..\packages\WebSocketSharp.1.0.3-rc11\lib\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlLine.cs" />
     <Compile Include="Empty.cs" />
+    <Compile Include="OBS_StyleTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OBS_StyleTextBox.Designer.cs">
+      <DependentUpon>OBS_StyleTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="WindowListForm.cs">
       <SubType>Form</SubType>
@@ -135,6 +149,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sceneConfigControlLine.cs" />
+    <EmbeddedResource Include="OBS_StyleTextBox.resx">
+      <DependentUpon>OBS_StyleTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WindowListForm.resx">
       <DependentUpon>WindowListForm.cs</DependentUpon>
     </EmbeddedResource>

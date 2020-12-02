@@ -50,6 +50,7 @@ namespace OBS_Supporter
             }
 
             InitializeComponent();
+
             controlLineList = new Empty(this);
             main = new Main(this);
             nfiTrayIcon.Visible = true;
@@ -205,7 +206,7 @@ namespace OBS_Supporter
             }
             refreshShowConsoleButton();
         }
-
+        
             //Saves Settings
         private void applySettings()
         {
@@ -367,11 +368,6 @@ namespace OBS_Supporter
 
         private void makeSettingsVisible(Panel panel)
         {
-            btnGeneral.FlatStyle = FlatStyle.Popup;
-            btnConsole.FlatStyle = FlatStyle.Popup;
-            btnSceneConfig.FlatStyle = FlatStyle.Popup;
-            btnFixes.FlatStyle = FlatStyle.Popup;
-
             pnlGeneral.Visible = false;
             pnlConsole.Visible = false;
             pnlFixes.Visible = false;
@@ -383,26 +379,58 @@ namespace OBS_Supporter
         private void btnGeneral_Click(object sender, EventArgs e)
         {
             makeSettingsVisible(pnlGeneral);
-            btnGeneral.FlatStyle = FlatStyle.Flat;
+            btnGeneral.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnConsole.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnSceneConfig.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnFixes.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+
+            btnGeneral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnConsole.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnSceneConfig.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnFixes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
         }
 
         private void btnConsole_Click(object sender, EventArgs e)
         {
             makeSettingsVisible(pnlConsole);
-            btnConsole.FlatStyle = FlatStyle.Flat;
-            pnlConsole.Visible = true;
+            btnConsole.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnGeneral.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnSceneConfig.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnFixes.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+
+            btnConsole.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnGeneral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnSceneConfig.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnFixes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+
         }
 
         private void btnSceneConfig_Click(object sender, EventArgs e)
         {
             makeSettingsVisible(pnlSceneConfig);
-            btnSceneConfig.FlatStyle = FlatStyle.Flat;
+            btnSceneConfig.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnGeneral.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnConsole.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnFixes.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+
+            btnSceneConfig.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnGeneral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnConsole.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnFixes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
         }
 
         private void btnFixes_Click(object sender, EventArgs e)
         {
             makeSettingsVisible(pnlFixes);
-            btnFixes.FlatStyle = FlatStyle.Flat;
+            btnFixes.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnGeneral.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnConsole.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+            btnSceneConfig.BackColor = System.Drawing.Color.FromArgb(31, 30, 31);
+
+            btnFixes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            btnGeneral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnConsole.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            btnSceneConfig.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
         }
 
         private void btnRefreshPath_Click(object sender, EventArgs e)
@@ -472,9 +500,9 @@ namespace OBS_Supporter
             btnApply.Enabled = true;
         }
 
-        public void enableBtnOpenConnect()
+        public void enableBtnOpenConnect(bool enable)
         {
-            btnOpenConnect.Enabled = true;
+            btnOpenConnect.Enabled = enable;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -534,6 +562,7 @@ namespace OBS_Supporter
         {
             string process = (string)e.NewEvent.Properties["ProcessName"].Value;
             string scene = supporterForm.controlLineList.getScene(process);
+            writeInConsole(ConsoleColor.White, process);
 
             if (scene != null)
             {
@@ -650,12 +679,19 @@ namespace OBS_Supporter
 
         public void createObsLnk()
         {
-            shell1 = new WshShell();
-            string directory = obsPath.Substring(0, obsPath.LastIndexOf("\\"));
-            shortcut1 = (IWshShortcut)shell1.CreateShortcut(directory + "OBS_escape.lnk");
-            shortcut1.TargetPath = obsPath;
-            shortcut1.WorkingDirectory = directory;
-            shortcut1.Save();
+            try
+            {
+                shell1 = new WshShell();
+                string directory = obsPath.Substring(0, obsPath.LastIndexOf("\\"));
+                shortcut1 = (IWshShortcut)shell1.CreateShortcut(directory + "OBS_escape.lnk");
+                shortcut1.TargetPath = obsPath;
+                shortcut1.WorkingDirectory = directory;
+                shortcut1.Save();
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                supporterForm.enableBtnOpenConnect(false);
+            }
         }
 
         public void removeObsLnk()
@@ -671,7 +707,7 @@ namespace OBS_Supporter
         {
             obsProcess = new Process();
             obsProcess.StartInfo.FileName = shortcut1.FullName;
-            supporterForm.enableBtnOpenConnect();
+            supporterForm.enableBtnOpenConnect(true);
         }
 
         public void closeObs(OBSWebsocket sender, OutputState outputState)
