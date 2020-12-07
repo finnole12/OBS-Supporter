@@ -38,9 +38,7 @@
             this.cbxShowConsoleOnLaunch = new System.Windows.Forms.CheckBox();
             this.btnShowConsole = new System.Windows.Forms.Button();
             this.btnAddSceneConfig = new System.Windows.Forms.Button();
-            this.btnOpenConnect = new System.Windows.Forms.Button();
             this.lblConnection = new System.Windows.Forms.Label();
-            this.btnBrowse = new System.Windows.Forms.Button();
             this.pnlConsole = new System.Windows.Forms.Panel();
             this.pnlGeneral = new System.Windows.Forms.Panel();
             this.llblTest = new System.Windows.Forms.LinkLabel();
@@ -59,7 +57,8 @@
             this.btnSceneConfig = new System.Windows.Forms.Button();
             this.btnConsole = new System.Windows.Forms.Button();
             this.btnGeneral = new System.Windows.Forms.Button();
-            this.obS_StyleTextBox1 = new OBS_Supporter.OBS_StyleTextBox();
+            this.btnBrowse = new OBS_Supporter.obsButton();
+            this.btnOpenConnect = new OBS_Supporter.obsButton();
             this.pnlConsole.SuspendLayout();
             this.pnlGeneral.SuspendLayout();
             this.pnlFixes.SuspendLayout();
@@ -77,6 +76,7 @@
             // lblObsPath
             // 
             this.lblObsPath.AutoSize = true;
+            this.lblObsPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(224)))), ((int)(((byte)(225)))));
             this.lblObsPath.Location = new System.Drawing.Point(3, 11);
             this.lblObsPath.Name = "lblObsPath";
             this.lblObsPath.Size = new System.Drawing.Size(69, 13);
@@ -111,7 +111,7 @@
             // lblInvalid
             // 
             this.lblInvalid.AutoSize = true;
-            this.lblInvalid.BackColor = System.Drawing.SystemColors.Control;
+            this.lblInvalid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
             this.lblInvalid.ForeColor = System.Drawing.Color.Red;
             this.lblInvalid.Location = new System.Drawing.Point(75, 31);
             this.lblInvalid.Name = "lblInvalid";
@@ -155,18 +155,6 @@
             this.btnAddSceneConfig.LocationChanged += new System.EventHandler(this.btnAddSceneConfig_LocationChanged);
             this.btnAddSceneConfig.Click += new System.EventHandler(this.btnAddSceneConfig_Click);
             // 
-            // btnOpenConnect
-            // 
-            this.btnOpenConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenConnect.Enabled = false;
-            this.btnOpenConnect.Location = new System.Drawing.Point(587, 35);
-            this.btnOpenConnect.Name = "btnOpenConnect";
-            this.btnOpenConnect.Size = new System.Drawing.Size(104, 23);
-            this.btnOpenConnect.TabIndex = 6;
-            this.btnOpenConnect.Text = "open and connect";
-            this.btnOpenConnect.UseVisualStyleBackColor = true;
-            this.btnOpenConnect.Click += new System.EventHandler(this.btnOpenConnect_Click);
-            // 
             // lblConnection
             // 
             this.lblConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -177,17 +165,6 @@
             this.lblConnection.Size = new System.Drawing.Size(80, 13);
             this.lblConnection.TabIndex = 7;
             this.lblConnection.Text = "*not connected";
-            // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Location = new System.Drawing.Point(616, 6);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowse.TabIndex = 9;
-            this.btnBrowse.Text = "Browse...";
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // pnlConsole
             // 
@@ -438,20 +415,44 @@
             this.btnGeneral.UseVisualStyleBackColor = false;
             this.btnGeneral.Click += new System.EventHandler(this.btnGeneral_Click);
             // 
-            // obS_StyleTextBox1
+            // btnBrowse
             // 
-            this.obS_StyleTextBox1.Location = new System.Drawing.Point(190, 262);
-            this.obS_StyleTextBox1.Name = "obS_StyleTextBox1";
-            this.obS_StyleTextBox1.Size = new System.Drawing.Size(289, 57);
-            this.obS_StyleTextBox1.TabIndex = 22;
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.btnBrowse.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.btnBrowse.FlatAppearance.BorderSize = 0;
+            this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBrowse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(224)))), ((int)(((byte)(225)))));
+            this.btnBrowse.Location = new System.Drawing.Point(616, 6);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowse.TabIndex = 9;
+            this.btnBrowse.Text = "Browse...";
+            this.btnBrowse.UseVisualStyleBackColor = false;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // btnOpenConnect
+            // 
+            this.btnOpenConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.btnOpenConnect.Enabled = false;
+            this.btnOpenConnect.FlatAppearance.BorderSize = 0;
+            this.btnOpenConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(224)))), ((int)(((byte)(225)))));
+            this.btnOpenConnect.Location = new System.Drawing.Point(587, 35);
+            this.btnOpenConnect.Name = "btnOpenConnect";
+            this.btnOpenConnect.Size = new System.Drawing.Size(104, 23);
+            this.btnOpenConnect.TabIndex = 6;
+            this.btnOpenConnect.Text = "open and connect";
+            this.btnOpenConnect.UseVisualStyleBackColor = false;
+            this.btnOpenConnect.Click += new System.EventHandler(this.btnOpenConnect_Click);
             // 
             // frmOBSSupporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
             this.ClientSize = new System.Drawing.Size(896, 353);
-            this.Controls.Add(this.obS_StyleTextBox1);
             this.Controls.Add(this.pnlGeneral);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSceneConfig);
@@ -485,10 +486,10 @@
         private System.Windows.Forms.Label lblInvalid;
         private System.Windows.Forms.CheckBox cbxShowConsoleOnLaunch;
         private System.Windows.Forms.Button btnShowConsole;
-        private System.Windows.Forms.Button btnOpenConnect;
+        private obsButton btnOpenConnect;
         private System.Windows.Forms.Label lblConnection;
         private System.Windows.Forms.Button btnAddSceneConfig;
-        private System.Windows.Forms.Button btnBrowse;
+        private obsButton btnBrowse;
         private System.Windows.Forms.Panel pnlConsole;
         private System.Windows.Forms.Panel pnlGeneral;
         private System.Windows.Forms.Panel pnlFixes;
@@ -507,7 +508,6 @@
         private System.Windows.Forms.Button btnConsole;
         private System.Windows.Forms.Button btnGeneral;
         private System.Windows.Forms.Button btnFixes;
-        private OBS_StyleTextBox obS_StyleTextBox1;
     }
 }
 
