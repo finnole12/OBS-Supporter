@@ -78,7 +78,7 @@ namespace OBS_Supporter
             if (utilityApplications != null) controlLineList.loadAllUtilityApplications(utilityApplications, 0);
         }
     
-            //distributes Event-Watchers
+        //distributes Event-Watchers
         public void watchOut()
         {   startWatch = new ManagementEventWatcher(new WqlEventQuery("SELECT * FROM Win32_ProcessStartTrace"));
             startWatch.EventArrived += new EventArrivedEventHandler(main.startWatch_EventArrived);
@@ -140,7 +140,7 @@ namespace OBS_Supporter
                 //Properties.Settings.Default.savedTaskPath = "";
                 //Properties.Settings.Default.Save();
                 cbxStartOnBoot.Checked = taskPath != "";
-                tbxObsPath.Text = main.obsPath;
+                tbxObsPath.setText(main.obsPath);
                 fillForm(connected);
                 refreshShowConsoleButton();
                 allSceneGames = Properties.Settings.Default.savedSceneGames;
@@ -157,11 +157,11 @@ namespace OBS_Supporter
         //Settings Changed
         private void tbxObsPath_TextChanged(object sender, EventArgs e)
         {
-            if ((tbxObsPath.Text == "") || (!tbxObsPath.Text.Contains("obs64.exe")))
+            if ((tbxObsPath.getText() == "") || (!tbxObsPath.getText().Contains("obs64.exe")))
             {
                 lblInvalid.Visible = true;
             }
-            else if (tbxObsPath.Text != main.obsPath)
+            else if (tbxObsPath.getText() != main.obsPath)
             {
                 btnOK.Enabled = true;
                 btnApply.Enabled = true;
@@ -211,7 +211,7 @@ namespace OBS_Supporter
         private void applySettings()
         {
             lblInvalid.Visible = false;
-            main.obsPath = Path.GetFullPath(tbxObsPath.Text);
+            main.obsPath = Path.GetFullPath(tbxObsPath.getText());
             main.removeObsLnk();
             main.createObsLnk();
             main.createObsProcess();
@@ -362,7 +362,7 @@ namespace OBS_Supporter
             oFDialog.RestoreDirectory = false;
             if (oFDialog.ShowDialog() == DialogResult.OK)
             {
-                tbxObsPath.Text = oFDialog.FileName;
+                tbxObsPath.setText(oFDialog.FileName);
             }
         }
 

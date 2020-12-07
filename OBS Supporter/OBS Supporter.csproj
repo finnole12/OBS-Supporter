@@ -130,6 +130,12 @@
     <Compile Include="obsButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="obsStyleTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="obsStyleTextBox.Designer.cs">
+      <DependentUpon>obsStyleTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="WindowListForm.cs">
       <SubType>Form</SubType>
@@ -146,6 +152,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sceneConfigControlLine.cs" />
+    <EmbeddedResource Include="obsStyleTextBox.resx">
+      <DependentUpon>obsStyleTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WindowListForm.resx">
       <DependentUpon>WindowListForm.cs</DependentUpon>
     </EmbeddedResource>

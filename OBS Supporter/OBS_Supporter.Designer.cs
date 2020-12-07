@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOBSSupporter));
             this.nfiTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.lblObsPath = new System.Windows.Forms.Label();
-            this.tbxObsPath = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.lblInvalid = new System.Windows.Forms.Label();
             this.cbxShowConsoleOnLaunch = new System.Windows.Forms.CheckBox();
@@ -52,18 +51,19 @@
             this.pnlSceneConfig = new System.Windows.Forms.Panel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnApply = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlMenu = new System.Windows.Forms.Panel();
             this.btnFixes = new System.Windows.Forms.Button();
             this.btnSceneConfig = new System.Windows.Forms.Button();
             this.btnConsole = new System.Windows.Forms.Button();
             this.btnGeneral = new System.Windows.Forms.Button();
             this.btnBrowse = new OBS_Supporter.obsButton();
+            this.tbxObsPath = new OBS_Supporter.obsStyleTextBox();
             this.btnOpenConnect = new OBS_Supporter.obsButton();
             this.pnlConsole.SuspendLayout();
             this.pnlGeneral.SuspendLayout();
             this.pnlFixes.SuspendLayout();
             this.pnlSceneConfig.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pnlMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // nfiTrayIcon
@@ -82,19 +82,6 @@
             this.lblObsPath.Size = new System.Drawing.Size(69, 13);
             this.lblObsPath.TabIndex = 0;
             this.lblObsPath.Text = "Path to OBS:";
-            // 
-            // tbxObsPath
-            // 
-            this.tbxObsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxObsPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
-            this.tbxObsPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbxObsPath.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.tbxObsPath.Location = new System.Drawing.Point(78, 11);
-            this.tbxObsPath.Name = "tbxObsPath";
-            this.tbxObsPath.Size = new System.Drawing.Size(532, 13);
-            this.tbxObsPath.TabIndex = 1;
-            this.tbxObsPath.TextChanged += new System.EventHandler(this.tbxObsPath_TextChanged);
             // 
             // btnOK
             // 
@@ -315,17 +302,17 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
-            // panel1
+            // pnlMenu
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
-            this.panel1.Controls.Add(this.btnFixes);
-            this.panel1.Controls.Add(this.btnSceneConfig);
-            this.panel1.Controls.Add(this.btnConsole);
-            this.panel1.Controls.Add(this.btnGeneral);
-            this.panel1.Location = new System.Drawing.Point(13, 12);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(130, 329);
-            this.panel1.TabIndex = 21;
+            this.pnlMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
+            this.pnlMenu.Controls.Add(this.btnFixes);
+            this.pnlMenu.Controls.Add(this.btnSceneConfig);
+            this.pnlMenu.Controls.Add(this.btnConsole);
+            this.pnlMenu.Controls.Add(this.btnGeneral);
+            this.pnlMenu.Location = new System.Drawing.Point(13, 12);
+            this.pnlMenu.Name = "pnlMenu";
+            this.pnlMenu.Size = new System.Drawing.Size(130, 329);
+            this.pnlMenu.TabIndex = 21;
             // 
             // btnFixes
             // 
@@ -431,6 +418,20 @@
             this.btnBrowse.UseVisualStyleBackColor = false;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
+            // tbxObsPath
+            // 
+            this.tbxObsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxObsPath.AutoSize = true;
+            this.tbxObsPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tbxObsPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
+            this.tbxObsPath.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.tbxObsPath.Location = new System.Drawing.Point(78, 8);
+            this.tbxObsPath.Name = "tbxObsPath";
+            this.tbxObsPath.Size = new System.Drawing.Size(532, 19);
+            this.tbxObsPath.TabIndex = 1;
+            this.tbxObsPath.TextChanged += new System.EventHandler(this.tbxObsPath_TextChanged);
+            // 
             // btnOpenConnect
             // 
             this.btnOpenConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -454,7 +455,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
             this.ClientSize = new System.Drawing.Size(896, 353);
             this.Controls.Add(this.pnlGeneral);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlMenu);
             this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlFixes);
             this.Controls.Add(this.pnlConsole);
@@ -472,7 +473,7 @@
             this.pnlFixes.ResumeLayout(false);
             this.pnlFixes.PerformLayout();
             this.pnlSceneConfig.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.pnlMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -481,7 +482,7 @@
 
         private System.Windows.Forms.NotifyIcon nfiTrayIcon;
         private System.Windows.Forms.Label lblObsPath;
-        private System.Windows.Forms.TextBox tbxObsPath;
+        private obsStyleTextBox tbxObsPath;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Label lblInvalid;
         private System.Windows.Forms.CheckBox cbxShowConsoleOnLaunch;
@@ -503,7 +504,7 @@
         private System.Windows.Forms.CheckBox cbxNotificationSound;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlMenu;
         private System.Windows.Forms.Button btnSceneConfig;
         private System.Windows.Forms.Button btnConsole;
         private System.Windows.Forms.Button btnGeneral;
