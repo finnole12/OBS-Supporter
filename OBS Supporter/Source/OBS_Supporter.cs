@@ -21,34 +21,14 @@ namespace OBS_Supporter
         public ManagementEventWatcher startWatch;
         private OBSScene[] sceneNames;
         public string[] sceneNamesStr;
-        private Boolean consoleVisible;
-        private Boolean connected = false;
+        private bool connected = false;
         public string[][] allSceneGames = new string[0][];
         public sceneConfigControlLine controlLineList;
         public string missingGames = "Couldn't find the following Games:\n";
 
-        //Console Access-------------------------------
-        private IntPtr handle;
-
-        [DllImport("kernel32.dll")]
-        static extern IntPtr GetConsoleWindow();
-
-        [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        const int SW_HIDE = 0;
-        const int SW_SHOW = 5;
-
         //Initializing---------------------------------------------------------------------------------------------------------------
         public frmOBSSupporter()
         {
-            handle = GetConsoleWindow();
-            if (!Properties.Settings.Default.savedConsoleOnLaunch)
-            {
-                ShowWindow(handle, SW_HIDE);
-                consoleVisible = false;
-            }
-
             InitializeComponent();
 
             controlLineList = new Empty(this);
@@ -134,7 +114,6 @@ namespace OBS_Supporter
             }
             if (WindowState == FormWindowState.Normal)
             {
-                cbxShowConsoleOnLaunch.Checked = Properties.Settings.Default.savedConsoleOnLaunch;
                 cbxNotificationSound.Checked = Properties.Settings.Default.savedNotificationSound;
                 string taskPath = Properties.Settings.Default.savedTaskPath;
                 //Properties.Settings.Default.savedTaskPath = "";
@@ -142,7 +121,6 @@ namespace OBS_Supporter
                 cbxStartOnBoot.Checked = taskPath != "";
                 tbxObsPath.setText(main.obsPath);
                 fillForm(connected);
-                refreshShowConsoleButton();
                 allSceneGames = Properties.Settings.Default.savedSceneGames;
                 if (allSceneGames == null)
                 {
@@ -190,22 +168,6 @@ namespace OBS_Supporter
         {
             main.obsProcess.Start();
         }
-
-            //Console Visiblity
-        private void btnShowConsole_Click(object sender, EventArgs e)
-        {
-            if (consoleVisible)
-            {
-                ShowWindow(handle, SW_HIDE);
-                consoleVisible = false;
-            }
-            else
-            {
-                ShowWindow(handle, SW_SHOW);
-                consoleVisible = true;
-            }
-            refreshShowConsoleButton();
-        }
         
             //Saves Settings
         private void applySettings()
@@ -220,7 +182,6 @@ namespace OBS_Supporter
             Properties.Settings.Default.savedSceneGames = controlLineList.getAllSceneGames();
             Properties.Settings.Default.savedOBSPath = main.obsPath;
             Properties.Settings.Default.savedUtilityProcesses = controlLineList.getAllUtilityApplications();
-            Properties.Settings.Default.savedConsoleOnLaunch = cbxShowConsoleOnLaunch.Checked;
             Properties.Settings.Default.savedNotificationSound = cbxNotificationSound.Checked;
 
             Properties.Settings.Default.Save();
@@ -309,19 +270,6 @@ namespace OBS_Supporter
             main.gameStarted(scene);
         }
 
-            //refreshes ShowConsole-Button Text
-        private void refreshShowConsoleButton()
-        {
-            if (consoleVisible)
-            {
-                btnShowConsole.Text = "Click to hide Console";
-            }
-            else
-            {
-                btnShowConsole.Text = "Click to show Console";
-            }
-        }
-
         //WebSocket-Events--------------------------------------------------------------------------------------------------------------
             //triggered by main.onConnect()
         public void onConnect()
@@ -351,7 +299,7 @@ namespace OBS_Supporter
 
         public void onDisconnect()
         {
-            main.writeInConsole(ConsoleColor.Red, "supporterondisconnect");
+            writeInConsole(System.Drawing.Color.Red, "supporterondisconnect");
             fillForm(false);
         }
 
@@ -510,6 +458,20 @@ namespace OBS_Supporter
             Properties.Settings.Default.Reset();
             Properties.Settings.Default.Save();
         }
+
+        //Form-Methods--------------------------------------------------------------------------------------------------------------
+        public void writeInConsole(System.Drawing.Color color, string message)
+        {
+            Invoke(new MethodInvoker(delegate {
+                rtbxConsole.SelectionStart = rtbxConsole.TextLength;
+                rtbxConsole.SelectionLength = 0;
+
+                rtbxConsole.SelectionColor = color;
+                rtbxConsole.AppendText(message + Environment.NewLine);
+                rtbxConsole.ScrollToCaret();
+                rtbxConsole.SelectionColor = System.Drawing.Color.White;
+            }));
+        }
     }
 
     public class Main
@@ -549,25 +511,17 @@ namespace OBS_Supporter
             }
         }
 
-        //Form-Methods--------------------------------------------------------------------------------------------------------------
-        public void writeInConsole(ConsoleColor color, string message)
-        {
-            Console.ForegroundColor = color;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
         //Watcher-Events-------------------------------------------------------------------------------------------------------------
         public void startWatch_EventArrived(object sender, EventArrivedEventArgs e)
         {
             string process = (string)e.NewEvent.Properties["ProcessName"].Value;
             string scene = supporterForm.controlLineList.getScene(process);
-            writeInConsole(ConsoleColor.White, process);
+            supporterForm.writeInConsole(System.Drawing.Color.White, process);
 
             if (scene != null)
             {
                 currentAppID = (UInt32)e.NewEvent.Properties["ProcessID"].Value;
-                writeInConsole(ConsoleColor.White, "currentGame: " + process + "(" + currentAppID + ")");
+                supporterForm.writeInConsole(System.Drawing.Color.White, "currentGame: " + process + "(" + currentAppID + ")");
                 gameStarted(scene);
                 supporterForm.controlLineList.startUtilityApplications();
             }
@@ -582,7 +536,7 @@ namespace OBS_Supporter
             {
                 supporterForm.startWatch.Stop();
                 supporterForm.startWatch.Start();
-                writeInConsole(ConsoleColor.Yellow, "TRY NOW");
+                supporterForm.writeInConsole(System.Drawing.Color.Yellow, "TRY NOW");
                 dateTime = DateTime.Now.AddSeconds(3);
                 thread = new Thread(new ThreadStart(connect));
                 thread.Start();
@@ -713,7 +667,7 @@ namespace OBS_Supporter
         public void closeObs(OBSWebsocket sender, OutputState outputState)
         {
             _obs.ReplayBufferStateChanged -= closeObs; //changed
-            writeInConsole(ConsoleColor.Red, "closing now");
+            supporterForm.writeInConsole(System.Drawing.Color.Red, "closing now");
             Thread.Sleep(3000);
             obsProcess.CloseMainWindow();
         }
@@ -727,7 +681,7 @@ namespace OBS_Supporter
             }
             catch (Exception e)
             {
-                writeInConsole(ConsoleColor.Red, "Failed Connecting: " + e.Message);
+                supporterForm.writeInConsole(System.Drawing.Color.Red, "Failed Connecting: " + e.Message);
             }
             onConnectTriggered = true;
         }
@@ -758,7 +712,7 @@ namespace OBS_Supporter
 
         private void onConnect(object sender, EventArgs e)
         {
-            writeInConsole(ConsoleColor.Green, "On-Connect-Event triggered");
+            supporterForm.writeInConsole(System.Drawing.Color.Green, "On-Connect-Event triggered");
             onConnectTriggered = true;
             setScene();
             setProfile();
@@ -770,7 +724,7 @@ namespace OBS_Supporter
         {
             onConnectTriggered = false;
             if (obsProcess.HasExited) opened = false;
-            writeInConsole(ConsoleColor.Red, "Disconnected with Websocket");
+            supporterForm.writeInConsole(System.Drawing.Color.Red, "Disconnected with Websocket");
             supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onDisconnect(); }));
             replayBufferState = false;
         }

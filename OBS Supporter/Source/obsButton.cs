@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace OBS_Supporter
 {
-    class obsButton : Button
+    class ObsButton : Button
     {
         GraphicsPath GetRoundPath(RectangleF Rect, int radius)
         {

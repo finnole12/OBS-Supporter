@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C4F8BCEE-6233-473E-9449-B6680785880D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>OBS_Supporter</RootNamespace>
     <AssemblyName>OBS Supporter</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -127,7 +127,7 @@
   <ItemGroup>
     <Compile Include="Source\ControlLine.cs" />
     <Compile Include="Source\Empty.cs" />
-    <Compile Include="Source\obsButton.cs">
+    <Compile Include="Source\ObsButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Source\obsStyleTextBox.cs">

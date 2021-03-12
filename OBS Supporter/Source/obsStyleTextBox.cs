@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace OBS_Supporter
 {
-    public partial class obsStyleTextBox : UserControl
+    public partial class ObsStyleTextBox : UserControl
     {
-        public obsStyleTextBox()
+        public ObsStyleTextBox()
         {
             InitializeComponent();
         }

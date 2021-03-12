@@ -1,6 +1,6 @@
 ﻿namespace OBS_Supporter
 {
-    partial class obsStyleTextBox
+    partial class ObsStyleTextBox
     {
         /// <summary> 
         /// Required designer variable.
@@ -45,13 +45,13 @@
             this.tbx.TabIndex = 0;
             this.tbx.TextChanged += new System.EventHandler(this.tbx_TextChanged);
             // 
-            // obsStyleTextBox
+            // ObsStyleTextBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.Controls.Add(this.tbx);
-            this.Name = "obsStyleTextBox";
+            this.Name = "ObsStyleTextBox";
+            this.Size = new System.Drawing.Size(150, 20);
             this.ResumeLayout(false);
             this.PerformLayout();
 
