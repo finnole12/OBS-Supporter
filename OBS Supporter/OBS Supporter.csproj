@@ -125,40 +125,40 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlLine.cs" />
-    <Compile Include="Empty.cs" />
-    <Compile Include="obsButton.cs">
+    <Compile Include="Source\ControlLine.cs" />
+    <Compile Include="Source\Empty.cs" />
+    <Compile Include="Source\obsButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="obsStyleTextBox.cs">
+    <Compile Include="Source\obsStyleTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="obsStyleTextBox.Designer.cs">
+    <Compile Include="Source\obsStyleTextBox.Designer.cs">
       <DependentUpon>obsStyleTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="WindowListForm.cs">
+    <Compile Include="Source\Settings.cs" />
+    <Compile Include="Source\WindowListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WindowListForm.Designer.cs">
+    <Compile Include="Source\WindowListForm.Designer.cs">
       <DependentUpon>WindowListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OBS_Supporter.cs">
+    <Compile Include="Source\OBS_Supporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OBS_Supporter.Designer.cs">
+    <Compile Include="Source\OBS_Supporter.Designer.cs">
       <DependentUpon>OBS_Supporter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sceneConfigControlLine.cs" />
-    <EmbeddedResource Include="obsStyleTextBox.resx">
+    <Compile Include="Source\sceneConfigControlLine.cs" />
+    <EmbeddedResource Include="Source\obsStyleTextBox.resx">
       <DependentUpon>obsStyleTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WindowListForm.resx">
+    <EmbeddedResource Include="Source\WindowListForm.resx">
       <DependentUpon>WindowListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OBS_Supporter.resx">
+    <EmbeddedResource Include="Source\OBS_Supporter.resx">
       <DependentUpon>OBS_Supporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -215,8 +215,6 @@
     <None Include="Resources\AirPlanDing30Percent.wav" />
     <None Include="Resources\Air plane Ding - Copy.wav" />
     <None Include="Resources\Air plane Ding.mp3" />
-    <None Include="Resources\1-22 Sins of the Father.mp3" />
-    <None Include="Resources\ajo8uyjgyn5x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
