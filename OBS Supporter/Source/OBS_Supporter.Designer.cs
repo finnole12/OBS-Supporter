@@ -255,9 +255,8 @@
             this.btnOpenConnect.Name = "btnOpenConnect";
             this.btnOpenConnect.Size = new System.Drawing.Size(104, 23);
             this.btnOpenConnect.TabIndex = 6;
-            this.btnOpenConnect.Text = "open and connect";
+            this.btnOpenConnect.Text = "Connect to OBS";
             this.btnOpenConnect.UseVisualStyleBackColor = false;
-            this.btnOpenConnect.Click += new System.EventHandler(this.btnOpenConnect_Click);
             // 
             // tbxObsPath
             // 
@@ -441,8 +440,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
             this.ClientSize = new System.Drawing.Size(896, 353);
-            this.Controls.Add(this.pnlConsole);
             this.Controls.Add(this.pnlGeneral);
+            this.Controls.Add(this.pnlConsole);
             this.Controls.Add(this.pnlMenu);
             this.Controls.Add(this.pnlSceneConfig);
             this.Controls.Add(this.pnlFixes);

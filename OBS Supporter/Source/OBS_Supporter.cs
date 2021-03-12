@@ -6,7 +6,6 @@ using System.Management;
 using IWshRuntimeLibrary;
 using OBSWebsocketDotNet;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Threading;
 using Microsoft.Win32.TaskScheduler;
@@ -39,7 +38,7 @@ namespace OBS_Supporter
             allSceneGames = Properties.Settings.Default.savedSceneGames;
             if (allSceneGames != null)
             {
-                sceneNamesStr = new String[allSceneGames.Length];
+                sceneNamesStr = new string[allSceneGames.Length];
                 for (int i = 0; i < allSceneGames.Length; i++)
                 {
                     sceneNamesStr[i] = allSceneGames[i][0];
@@ -67,31 +66,52 @@ namespace OBS_Supporter
             stopWatch.EventArrived += new EventArrivedEventHandler(main.stopWatch_EventArrived);
             stopWatch.Start();
         }
-        
-            //initiates form filling based on connection state
+
+        /// <summary>
+        /// Fills Form based on connection state.
+        /// </summary>
+        /// <param name="connectionState"> Connection-State </param>
         private void fillForm(bool connectionState)
         {
+            // enables/disables Scene-Configuration
             pnlSceneConfig.Enabled = connectionState;
             if (connectionState)
             {
+                // fills ComboBoxes with SceneNames
                 fillComboBoxes();
-                connected = true;
+
+                // shows Connection State
                 lblConnection.Text = "*connected";
                 lblConnection.ForeColor = System.Drawing.Color.Green;
+
+                // refreshes shown Recording Path
                 getRecordingPath();
+
+                // transform connect Button to disconnect Button
+                btnOpenConnect.Text = "Disconnect";
+                btnOpenConnect.Click -= btnOpenConnect_Click;
+                btnOpenConnect.Click += btnDisconnect_Click;
             }
             else
             {
+                // shows Connection State
                 lblConnection.Text = "*not connected";
                 lblConnection.ForeColor = System.Drawing.Color.Red;
-                pnlSceneConfig.Enabled = false;
-                connected = false;
+
+                // transform disconnect Button to connect Button
+                btnOpenConnect.Text = "Connect to OBS";
+                btnOpenConnect.Click -= btnDisconnect_Click;
+                btnOpenConnect.Click += btnOpenConnect_Click;
             }
         }
 
         //form-Events---------------------------------------------------------------------------------------------------------------
 
-            //hides Form on launch
+        /// <summary>
+        /// Hides the Form on launch and shows the Tray-Icon
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmOBSSupporter_Shown(object sender, EventArgs e)
         {
             Hide();
@@ -124,8 +144,8 @@ namespace OBS_Supporter
                 allSceneGames = Properties.Settings.Default.savedSceneGames;
                 if (allSceneGames == null)
                 {
-                    allSceneGames = new String[1][];
-                    allSceneGames[0] = new String[0];
+                    allSceneGames = new string[1][];
+                    allSceneGames[0] = new string[0];
                 } //on first Time
                 btnOK.Enabled = false;
                 btnApply.Enabled = false;
@@ -158,15 +178,24 @@ namespace OBS_Supporter
         {
             btnOK.Enabled = true;
         }
-        public void cobxSelectedValueChanged(Object sender, EventArgs e)
+        public void cobxSelectedValueChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
         }
 
-            //manually opens and connects OBS
+        /// <summary>
+        /// Manually opens and connects OBS
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOpenConnect_Click(object sender, EventArgs e)
         {
             main.obsProcess.Start();
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            main.stopReplayBufferAndCloseOBS();
         }
         
             //Saves Settings
@@ -224,6 +253,10 @@ namespace OBS_Supporter
         }
 
         //Scene-Configuration--------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Fills ComboBoxes with Scene-Names
+        /// </summary>
         private void fillComboBoxes()
         {
             controlLineList.fillComboboxes(sceneNamesStr);
@@ -271,35 +304,43 @@ namespace OBS_Supporter
         }
 
         //WebSocket-Events--------------------------------------------------------------------------------------------------------------
-            //triggered by main.onConnect()
+        
+        /// <summary>
+        /// sets up the Form when connected
+        /// </summary>
         public void onConnect()
         {
+            // retrieving Scene-Names from OBS
             for (int i = 0; i < 3; i++)
             {
                 sceneNames = main._obs.ListScenes().ToArray();
             }
-
-            sceneNamesStr = new String[sceneNames.Length];
+            sceneNamesStr = new string[sceneNames.Length];
             for (int i = 0; i < sceneNames.Length; i++)
             {
                 sceneNamesStr[i] = sceneNames[i].Name;
             }
 
+            // enables Connection Based GUI Functionality
             if (WindowState == FormWindowState.Normal)
             {
+                connected = true;
                 fillForm(true);
             }
             else
             {
                 connected = true; //TODO: nötig? vtl fillform(false);
+                controlLineList.fillComboboxes(sceneNamesStr);
             }
 
-            controlLineList.fillComboboxes(sceneNamesStr);
         } //Todo contorllinelist laden reichschaeun
 
+        /// <summary>
+        /// Disables Connection-Based GUI-Features
+        /// </summary>
         public void onDisconnect()
         {
-            writeInConsole(System.Drawing.Color.Red, "supporterondisconnect");
+            connected = false;
             fillForm(false);
         }
 
@@ -488,12 +529,11 @@ namespace OBS_Supporter
         public Process obsProcess;
         UInt32 obsProcessID;
         public string obsPath = Properties.Settings.Default.savedOBSPath;
-        private Boolean onConnectTriggered = false;
-        private Boolean opened = false;
-        private Boolean launchInit = false;
+        private bool onConnectTriggered = false;
+        private bool opened = false;
+        private bool launchInit = false;
         private UInt32 currentAppID = 0;
         private Thread thread;
-        private DateTime dateTime;
         private string sceneChangedTo;
 
 
@@ -532,12 +572,11 @@ namespace OBS_Supporter
                 obsProcessID = (UInt32)obsProcess.Id;
             }
 
-            if (!onConnectTriggered && opened && DateTime.Now.CompareTo(dateTime) > 0)
+            // Connect to OBS when OBS launch detected
+            if (!onConnectTriggered && opened)
             {
-                supporterForm.startWatch.Stop();
-                supporterForm.startWatch.Start();
-                supporterForm.writeInConsole(System.Drawing.Color.Yellow, "TRY NOW");
-                dateTime = DateTime.Now.AddSeconds(3);
+                supporterForm.startWatch.Stop();// TODO: nessacery?
+                supporterForm.startWatch.Start();// TODO: nessacery?
                 thread = new Thread(new ThreadStart(connect));
                 thread.Start();
             }
@@ -555,9 +594,7 @@ namespace OBS_Supporter
             }
             if (Process == currentAppID && onConnectTriggered)
             {
-                _obs.ReplayBufferStateChanged += closeObs;
-                _obs.StopReplayBuffer();
-                replayBufferState = false;
+                stopReplayBufferAndCloseOBS();
                 currentAppID = 0;
                 supporterForm.controlLineList.closeUtilityApplications();
             }
@@ -664,26 +701,50 @@ namespace OBS_Supporter
             supporterForm.enableBtnOpenConnect(true);
         }
 
-        public void closeObs(OBSWebsocket sender, OutputState outputState)
+        /// <summary>
+        /// Disconnects from Websocket and Closes OBS
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="outputState"></param>
+        private void disconnectAndCloseOBS(OBSWebsocket sender, OutputState outputState)
         {
-            _obs.ReplayBufferStateChanged -= closeObs; //changed
-            supporterForm.writeInConsole(System.Drawing.Color.Red, "closing now");
+            _obs.ReplayBufferStateChanged -= disconnectAndCloseOBS;
             Thread.Sleep(3000);
+            _obs.Disconnect();
+            supporterForm.writeInConsole(System.Drawing.Color.Red, "CLOSING OBS...");
             obsProcess.CloseMainWindow();
         }
 
+        /// <summary>
+        /// Tries to connect to an OBS Websocket.
+        /// </summary>
         private void connect()
         {
-            onConnectTriggered = false;
-            try
+            DateTime dateTime = DateTime.Now;
+            while (!onConnectTriggered && opened && DateTime.Now.CompareTo(dateTime) > 0)
             {
-                _obs.Connect("ws://127.0.0.1:4444", "");
+                dateTime = DateTime.Now.AddSeconds(3);
+                onConnectTriggered = false;
+                supporterForm.writeInConsole(System.Drawing.Color.Yellow, "CONNECTING...");
+                try
+                {
+                    _obs.Connect("ws://127.0.0.1:4444", "");
+                }
+                catch (Exception e)
+                {
+                    supporterForm.writeInConsole(System.Drawing.Color.Red, "Failed Connecting: " + e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                supporterForm.writeInConsole(System.Drawing.Color.Red, "Failed Connecting: " + e.Message);
-            }
-            onConnectTriggered = true;
+        }
+
+        /// <summary>
+        /// Stops the Replay Buffer and Closes OBS
+        /// </summary>
+        public void stopReplayBufferAndCloseOBS()
+        {
+            _obs.ReplayBufferStateChanged += disconnectAndCloseOBS;
+            _obs.StopReplayBuffer();
+            replayBufferState = false;
         }
 
         //_obs-Events---------------------------------------------------------------------------------------------------------------
@@ -712,7 +773,7 @@ namespace OBS_Supporter
 
         private void onConnect(object sender, EventArgs e)
         {
-            supporterForm.writeInConsole(System.Drawing.Color.Green, "On-Connect-Event triggered");
+            supporterForm.writeInConsole(System.Drawing.Color.LightGreen, "CONNECTED");
             onConnectTriggered = true;
             setScene();
             setProfile();
@@ -724,7 +785,7 @@ namespace OBS_Supporter
         {
             onConnectTriggered = false;
             if (obsProcess.HasExited) opened = false;
-            supporterForm.writeInConsole(System.Drawing.Color.Red, "Disconnected with Websocket");
+            supporterForm.writeInConsole(System.Drawing.Color.Red, "DISCONNECTED FROM WEBSOCKET");
             supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onDisconnect(); }));
             replayBufferState = false;
         }
