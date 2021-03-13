@@ -449,7 +449,6 @@
             this.Controls.Add(this.btnOK);
             this.Name = "frmOBSSupporter";
             this.Text = "OBS Supporter";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Shown += new System.EventHandler(this.frmOBSSupporter_Shown);
             this.Resize += new System.EventHandler(this.frmOBSSupporter_Resize);
             this.pnlConsole.ResumeLayout(false);

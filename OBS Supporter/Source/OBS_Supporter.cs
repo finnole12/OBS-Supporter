@@ -33,28 +33,13 @@ namespace OBS_Supporter
             controlLineList = new Empty(this);
             main = new Main(this);
             nfiTrayIcon.Visible = true;
+
+            // Watch started Processes
             watchOut();
 
-            allSceneGames = Properties.Settings.Default.savedSceneGames;
-            if (allSceneGames != null)
-            {
-                sceneNamesStr = new string[allSceneGames.Length];
-                for (int i = 0; i < allSceneGames.Length; i++)
-                {
-                    sceneNamesStr[i] = allSceneGames[i][0];
-                }
-                for (int i = 0; i < allSceneGames.Length; i++)
-                {
-                    addSceneConfig(allSceneGames[i]);
-                }
-                if (missingGames != "Couldn't find the following Games:\n")
-                {
-                    MessageBox.Show(missingGames);
-                }
-            }
+            // Load Settings
+            loadSettings();
 
-            System.Collections.ArrayList utilityApplications = Properties.Settings.Default.savedUtilityProcesses;
-            if (utilityApplications != null) controlLineList.loadAllUtilityApplications(utilityApplications, 0);
         }
     
         //distributes Event-Watchers
@@ -105,27 +90,89 @@ namespace OBS_Supporter
             }
         }
 
+        /// <summary>
+        /// Loads saved Settings.
+        /// </summary>
+        private void loadSettings()
+        {
+            // Load Scene-Configurations
+            allSceneGames = Properties.Settings.Default.savedSceneGames;
+            if (allSceneGames != null)
+            {
+                sceneNamesStr = new string[allSceneGames.Length];
+                for (int i = 0; i < allSceneGames.Length; i++)
+                {
+                    sceneNamesStr[i] = allSceneGames[i][0];
+                }
+                for (int i = 0; i < allSceneGames.Length; i++)
+                {
+                    addSceneConfig(allSceneGames[i]);
+                }
+                if (missingGames != "Couldn't find the following Games:\n")
+                {
+                    MessageBox.Show(missingGames);
+                }
+            } 
+            else
+            {
+                allSceneGames = new string[1][];
+                allSceneGames[0] = new string[0];
+            }
+
+            // Load Utility-Applications
+            System.Collections.ArrayList utilityApplications = Properties.Settings.Default.savedUtilityProcesses;
+            if (utilityApplications != null) controlLineList.loadAllUtilityApplications(utilityApplications, 0);
+
+            // Load Notification Sound-Setting
+            cbxNotificationSound.Checked = Properties.Settings.Default.savedNotificationSound;
+
+            // Load Start-On-Boot-Setting
+            string taskPath = Properties.Settings.Default.savedTaskPath;
+            TaskService ts = new TaskService();
+            cbxStartOnBoot.Checked = ts.RootFolder.Tasks.Exists(taskPath);
+
+            // Load OBS-Path
+            tbxObsPath.setText(main.obsPath);
+        }
+
         //form-Events---------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Hides the Form on launch and shows the Tray-Icon
+        /// Hides the Form on launch and shows the Tray-Icon.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void frmOBSSupporter_Shown(object sender, EventArgs e)
         {
-            Hide();
-            nfiTrayIcon.Visible = true;
+            loadSettings();
+
+            // check for Commandline-Arguments
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1 && args[1].Equals("-min"))
+            {
+                Hide();
+            } else
+            {
+                fillForm(false);
+            }
         }
 
-            //shows on Tray-Click
+        /// <summary>
+        /// Shows Form on Tray-Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nfiTrayIcon_MouseClick(object sender, MouseEventArgs e)
         {
             Show();
             WindowState = FormWindowState.Normal;
         }
 
-            //hides on Minimize / loads Form on Normalize
+        /// <summary>
+        /// Hides Form on minimize / Loads Settings on Normalize
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmOBSSupporter_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -134,19 +181,7 @@ namespace OBS_Supporter
             }
             if (WindowState == FormWindowState.Normal)
             {
-                cbxNotificationSound.Checked = Properties.Settings.Default.savedNotificationSound;
-                string taskPath = Properties.Settings.Default.savedTaskPath;
-                //Properties.Settings.Default.savedTaskPath = "";
-                //Properties.Settings.Default.Save();
-                cbxStartOnBoot.Checked = taskPath != "";
-                tbxObsPath.setText(main.obsPath);
-                fillForm(connected);
-                allSceneGames = Properties.Settings.Default.savedSceneGames;
-                if (allSceneGames == null)
-                {
-                    allSceneGames = new string[1][];
-                    allSceneGames[0] = new string[0];
-                } //on first Time
+                loadSettings();
                 btnOK.Enabled = false;
                 btnApply.Enabled = false;
             }
@@ -184,7 +219,7 @@ namespace OBS_Supporter
         }
 
         /// <summary>
-        /// Manually opens and connects OBS
+        /// Manually opens and connects OBS.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -439,39 +474,6 @@ namespace OBS_Supporter
             }
         }
 
-        private void createScheduleTask()
-        {
-            using (TaskService ts = new TaskService())
-            {
-                TaskDefinition td = ts.NewTask();
-                td.RegistrationInfo.Description = "launches OBS Supporter with logon";
-                td.Triggers.Add(new LogonTrigger());
-                td.Actions.Add(new ExecAction(System.Reflection.Assembly.GetEntryAssembly().Location, "c:\\test.log", null));
-                td.Principal.RunLevel = TaskRunLevel.Highest;
-                ts.RootFolder.RegisterTaskDefinition(@"OBS Supporter", td);
-            }
-            Properties.Settings.Default.savedTaskPath = "OBS Supporter";
-            Properties.Settings.Default.Save();
-        }
-
-        private void removeScheduleTask()
-        {
-            string taskPath = Properties.Settings.Default.savedTaskPath;
-            if (taskPath != "")
-            {
-                try
-                {
-                    using (TaskService ts = new TaskService())
-                    {
-                        ts.RootFolder.DeleteTask(taskPath);
-                    }
-                    Properties.Settings.Default.savedTaskPath = "";
-                    Properties.Settings.Default.Save();
-                }
-                catch { }
-            }
-        }
-
         private void cbxStartOnBoot_CheckedChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
@@ -513,6 +515,44 @@ namespace OBS_Supporter
                 rtbxConsole.SelectionColor = System.Drawing.Color.White;
             }));
         }
+
+        // Application Methods-------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Creates a Task in the Task Scheduler which will launch the App on every login.
+        /// </summary>
+        private void createScheduleTask()
+        {
+            using (TaskService ts = new TaskService())
+            {
+                TaskDefinition td = ts.NewTask();
+                td.RegistrationInfo.Description = "launches OBS Supporter with logon";
+                td.Triggers.Add(new LogonTrigger());
+                td.Actions.Add(new ExecAction(System.Reflection.Assembly.GetEntryAssembly().Location, "-min", null));
+                td.Principal.RunLevel = TaskRunLevel.Highest;
+                ts.RootFolder.RegisterTaskDefinition(@"OBS Supporter", td);
+            }
+            Properties.Settings.Default.savedTaskPath = "OBS Supporter";
+            Properties.Settings.Default.Save();
+        }
+
+        private void removeScheduleTask()
+        {
+            string taskPath = Properties.Settings.Default.savedTaskPath;
+            if (taskPath != "")
+            {
+                try
+                {
+                    using (TaskService ts = new TaskService())
+                    {
+                        ts.RootFolder.DeleteTask(taskPath);
+                    }
+                    Properties.Settings.Default.savedTaskPath = "";
+                    Properties.Settings.Default.Save();
+                }
+                catch { }
+            }
+        }
     }
 
     public class Main
@@ -532,6 +572,7 @@ namespace OBS_Supporter
         private bool onConnectTriggered = false;
         private bool opened = false;
         private bool launchInit = false;
+        private bool closingOBS = false;
         private UInt32 currentAppID = 0;
         private Thread thread;
         private string sceneChangedTo;
@@ -705,7 +746,8 @@ namespace OBS_Supporter
         {
             _obs.ReplayBufferStateChanged -= disconnectAndCloseOBS;
             Thread.Sleep(3000);
-            _obs.Disconnect();
+            //_obs.Disconnect();
+            closingOBS = true;
             supporterForm.writeInConsole(System.Drawing.Color.Red, "CLOSING OBS...");
             obsProcess.CloseMainWindow();
         }
@@ -788,10 +830,19 @@ namespace OBS_Supporter
         private void onDisconnect(object sender, EventArgs e)
         {
             onConnectTriggered = false;
-            if (obsProcess.HasExited) opened = false;
-            supporterForm.writeInConsole(System.Drawing.Color.Red, "DISCONNECTED FROM WEBSOCKET");
-            supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onDisconnect(); }));
-            replayBufferState = false;
+            if (closingOBS)
+            {
+                opened = false;
+                closingOBS = false;
+                supporterForm.writeInConsole(System.Drawing.Color.Red, "DISCONNECTED FROM WEBSOCKET");
+                supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onDisconnect(); }));
+                replayBufferState = false;
+            } else
+            {
+                supporterForm.writeInConsole(System.Drawing.Color.Orange, "CONNECTION FAILED");
+                thread = new Thread(new ThreadStart(connect));
+                thread.Start();
+            }
         }
     }
 }
