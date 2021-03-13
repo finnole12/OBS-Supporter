@@ -570,11 +570,6 @@ namespace OBS_Supporter
             {
                 opened = true;
                 obsProcessID = (UInt32)obsProcess.Id;
-            }
-
-            // Connect to OBS when OBS launch detected
-            if (!onConnectTriggered && opened)
-            {
                 supporterForm.startWatch.Stop();// TODO: nessacery?
                 supporterForm.startWatch.Start();// TODO: nessacery?
                 thread = new Thread(new ThreadStart(connect));
@@ -721,7 +716,7 @@ namespace OBS_Supporter
         private void connect()
         {
             DateTime dateTime = DateTime.Now;
-            while (!onConnectTriggered && opened && DateTime.Now.CompareTo(dateTime) > 0)
+            while (!onConnectTriggered && opened && DateTime.Now.CompareTo(dateTime) >= 0)
             {
                 dateTime = DateTime.Now.AddSeconds(3);
                 onConnectTriggered = false;
@@ -734,6 +729,7 @@ namespace OBS_Supporter
                 {
                     supporterForm.writeInConsole(System.Drawing.Color.Red, "Failed Connecting: " + e.Message);
                 }
+                Thread.Sleep(3000);
             }
         }
 
@@ -771,14 +767,22 @@ namespace OBS_Supporter
             sPlayer.Play();
         }
 
+        /// <summary>
+        /// Retrieves Scenes and Profiles on a new Websocket Connection, if no connection already exists.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onConnect(object sender, EventArgs e)
         {
-            supporterForm.writeInConsole(System.Drawing.Color.LightGreen, "CONNECTED");
-            onConnectTriggered = true;
-            setScene();
-            setProfile();
-            supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onConnect(); }));
-            launchInit = false;
+            if (!onConnectTriggered)
+            {
+                onConnectTriggered = true;
+                supporterForm.writeInConsole(System.Drawing.Color.LightGreen, "CONNECTED");
+                setScene();
+                setProfile();
+                supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onConnect(); }));
+                launchInit = false;
+            }
         }
 
         private void onDisconnect(object sender, EventArgs e)
