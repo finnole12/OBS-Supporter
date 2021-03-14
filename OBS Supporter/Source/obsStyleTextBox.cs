@@ -14,7 +14,6 @@ namespace OBS_Supporter
 
         GraphicsPath GetRoundPath(RectangleF Rect, int radius)
         {
-            float r2 = radius / 2f;
             GraphicsPath GraphPath = new GraphicsPath();
 
             GraphPath.AddArc(Rect.X, Rect.Y, radius, radius, 180, 90);
@@ -58,6 +57,11 @@ namespace OBS_Supporter
         private void tbx_TextChanged(object sender, EventArgs e)
         {
             OnTextChanged(e);
+        }
+
+        public void setPasswordChar(char c)
+        {
+            tbx.PasswordChar = c;
         }
     }
 }

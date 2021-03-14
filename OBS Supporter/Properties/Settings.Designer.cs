@@ -48,42 +48,6 @@ namespace OBS_Supporter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool savedTeamSpeakRelaunch {
-            get {
-                return ((bool)(this["savedTeamSpeakRelaunch"]));
-            }
-            set {
-                this["savedTeamSpeakRelaunch"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool savedStrikeDriverRelaunch {
-            get {
-                return ((bool)(this["savedStrikeDriverRelaunch"]));
-            }
-            set {
-                this["savedStrikeDriverRelaunch"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool savedSynapseRelaunch {
-            get {
-                return ((bool)(this["savedSynapseRelaunch"]));
-            }
-            set {
-                this["savedSynapseRelaunch"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.ArrayList savedUtilityProcesses {
             get {
                 return ((global::System.Collections.ArrayList)(this["savedUtilityProcesses"]));
@@ -126,6 +90,30 @@ namespace OBS_Supporter.Properties {
             }
             set {
                 this["savedNotificationSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4444")]
+        public int savedPort {
+            get {
+                return ((int)(this["savedPort"]));
+            }
+            set {
+                this["savedPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\"")]
+        public string savedPassword {
+            get {
+                return ((string)(this["savedPassword"]));
+            }
+            set {
+                this["savedPassword"] = value;
             }
         }
     }

@@ -39,6 +39,12 @@
             this.pnlConsole = new System.Windows.Forms.Panel();
             this.rtbxConsole = new System.Windows.Forms.RichTextBox();
             this.pnlGeneral = new System.Windows.Forms.Panel();
+            this.cbxSavePassword = new System.Windows.Forms.CheckBox();
+            this.lblInvalidPort = new System.Windows.Forms.Label();
+            this.tbxPassword = new OBS_Supporter.ObsStyleTextBox();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.tbxPort = new OBS_Supporter.ObsStyleTextBox();
+            this.lblPort = new System.Windows.Forms.Label();
             this.llblTest = new System.Windows.Forms.LinkLabel();
             this.cbxNotificationSound = new System.Windows.Forms.CheckBox();
             this.cbxStartOnBoot = new System.Windows.Forms.CheckBox();
@@ -156,6 +162,12 @@
             // 
             this.pnlGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlGeneral.Controls.Add(this.cbxSavePassword);
+            this.pnlGeneral.Controls.Add(this.lblInvalidPort);
+            this.pnlGeneral.Controls.Add(this.tbxPassword);
+            this.pnlGeneral.Controls.Add(this.lblPassword);
+            this.pnlGeneral.Controls.Add(this.tbxPort);
+            this.pnlGeneral.Controls.Add(this.lblPort);
             this.pnlGeneral.Controls.Add(this.llblTest);
             this.pnlGeneral.Controls.Add(this.cbxNotificationSound);
             this.pnlGeneral.Controls.Add(this.cbxStartOnBoot);
@@ -172,10 +184,84 @@
             this.pnlGeneral.Size = new System.Drawing.Size(694, 219);
             this.pnlGeneral.TabIndex = 13;
             // 
+            // cbxSavePassword
+            // 
+            this.cbxSavePassword.AutoSize = true;
+            this.cbxSavePassword.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.cbxSavePassword.Location = new System.Drawing.Point(224, 70);
+            this.cbxSavePassword.Name = "cbxSavePassword";
+            this.cbxSavePassword.Size = new System.Drawing.Size(126, 17);
+            this.cbxSavePassword.TabIndex = 20;
+            this.cbxSavePassword.Text = "Remember Password";
+            this.cbxSavePassword.UseVisualStyleBackColor = true;
+            this.cbxSavePassword.CheckStateChanged += new System.EventHandler(this.cbxSavePassword_CheckStateChanged);
+            // 
+            // lblInvalidPort
+            // 
+            this.lblInvalidPort.AutoSize = true;
+            this.lblInvalidPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
+            this.lblInvalidPort.ForeColor = System.Drawing.Color.Red;
+            this.lblInvalidPort.Location = new System.Drawing.Point(221, 50);
+            this.lblInvalidPort.Name = "lblInvalidPort";
+            this.lblInvalidPort.Size = new System.Drawing.Size(61, 13);
+            this.lblInvalidPort.TabIndex = 19;
+            this.lblInvalidPort.Text = "*Only Digits";
+            this.lblInvalidPort.Visible = false;
+            // 
+            // tbxPassword
+            // 
+            this.tbxPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxPassword.AutoSize = true;
+            this.tbxPassword.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tbxPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
+            this.tbxPassword.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.tbxPassword.Location = new System.Drawing.Point(78, 68);
+            this.tbxPassword.Name = "tbxPassword";
+            this.tbxPassword.Size = new System.Drawing.Size(140, 20);
+            this.tbxPassword.TabIndex = 18;
+            this.tbxPassword.TextChanged += new System.EventHandler(this.tbxPassword_TextChanged);
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(224)))), ((int)(((byte)(225)))));
+            this.lblPassword.Location = new System.Drawing.Point(3, 71);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(56, 13);
+            this.lblPassword.TabIndex = 17;
+            this.lblPassword.Text = "Password:";
+            // 
+            // tbxPort
+            // 
+            this.tbxPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxPort.AutoSize = true;
+            this.tbxPort.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tbxPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(57)))), ((int)(((byte)(58)))));
+            this.tbxPort.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.tbxPort.Location = new System.Drawing.Point(78, 47);
+            this.tbxPort.Name = "tbxPort";
+            this.tbxPort.Size = new System.Drawing.Size(140, 20);
+            this.tbxPort.TabIndex = 16;
+            this.tbxPort.TextChanged += new System.EventHandler(this.tbxPort_TextChanged);
+            // 
+            // lblPort
+            // 
+            this.lblPort.AutoSize = true;
+            this.lblPort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(224)))), ((int)(((byte)(225)))));
+            this.lblPort.Location = new System.Drawing.Point(3, 50);
+            this.lblPort.Name = "lblPort";
+            this.lblPort.Size = new System.Drawing.Size(29, 13);
+            this.lblPort.TabIndex = 15;
+            this.lblPort.Text = "Port:";
+            // 
             // llblTest
             // 
+            this.llblTest.ActiveLinkColor = System.Drawing.Color.Silver;
             this.llblTest.AutoSize = true;
-            this.llblTest.Location = new System.Drawing.Point(245, 83);
+            this.llblTest.LinkColor = System.Drawing.Color.White;
+            this.llblTest.Location = new System.Drawing.Point(245, 149);
             this.llblTest.Name = "llblTest";
             this.llblTest.Size = new System.Drawing.Size(24, 13);
             this.llblTest.TabIndex = 14;
@@ -187,7 +273,7 @@
             // 
             this.cbxNotificationSound.AutoSize = true;
             this.cbxNotificationSound.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.cbxNotificationSound.Location = new System.Drawing.Point(6, 82);
+            this.cbxNotificationSound.Location = new System.Drawing.Point(6, 148);
             this.cbxNotificationSound.Name = "cbxNotificationSound";
             this.cbxNotificationSound.Size = new System.Drawing.Size(233, 17);
             this.cbxNotificationSound.TabIndex = 13;
@@ -199,7 +285,7 @@
             // 
             this.cbxStartOnBoot.AutoSize = true;
             this.cbxStartOnBoot.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.cbxStartOnBoot.Location = new System.Drawing.Point(6, 61);
+            this.cbxStartOnBoot.Location = new System.Drawing.Point(6, 127);
             this.cbxStartOnBoot.Name = "cbxStartOnBoot";
             this.cbxStartOnBoot.Size = new System.Drawing.Size(88, 17);
             this.cbxStartOnBoot.TabIndex = 12;
@@ -251,7 +337,7 @@
             this.btnOpenConnect.FlatAppearance.BorderSize = 0;
             this.btnOpenConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(224)))), ((int)(((byte)(225)))));
-            this.btnOpenConnect.Location = new System.Drawing.Point(587, 35);
+            this.btnOpenConnect.Location = new System.Drawing.Point(587, 34);
             this.btnOpenConnect.Name = "btnOpenConnect";
             this.btnOpenConnect.Size = new System.Drawing.Size(104, 23);
             this.btnOpenConnect.TabIndex = 6;
@@ -326,6 +412,7 @@
             // btnApply
             // 
             this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApply.Enabled = false;
             this.btnApply.Location = new System.Drawing.Point(809, 318);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
@@ -492,6 +579,12 @@
         private System.Windows.Forms.Button btnGeneral;
         private System.Windows.Forms.Button btnFixes;
         private System.Windows.Forms.RichTextBox rtbxConsole;
+        private ObsStyleTextBox tbxPassword;
+        private System.Windows.Forms.Label lblPassword;
+        private ObsStyleTextBox tbxPort;
+        private System.Windows.Forms.Label lblPort;
+        private System.Windows.Forms.Label lblInvalidPort;
+        private System.Windows.Forms.CheckBox cbxSavePassword;
     }
 }
 

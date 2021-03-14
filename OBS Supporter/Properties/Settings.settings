@@ -8,15 +8,6 @@
     <Setting Name="scene1Games" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="savedTeamSpeakRelaunch" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="savedStrikeDriverRelaunch" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="savedSynapseRelaunch" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="savedUtilityProcesses" Type="System.Collections.ArrayList" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -28,6 +19,12 @@
     </Setting>
     <Setting Name="savedNotificationSound" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="savedPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4444</Value>
+    </Setting>
+    <Setting Name="savedPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">""</Value>
     </Setting>
   </Settings>
 </SettingsFile>

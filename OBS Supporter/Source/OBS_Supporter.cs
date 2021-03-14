@@ -15,7 +15,7 @@ namespace OBS_Supporter
     public partial class frmOBSSupporter : Form
     {
         //Variables---------------------------------------------------------------------------------------------------------------
-        private Main main;
+        private readonly Main main;
         FileSystemWatcher OBS_RBDWatcher;
         public ManagementEventWatcher startWatch;
         private OBSScene[] sceneNames;
@@ -40,6 +40,8 @@ namespace OBS_Supporter
             // Load Settings
             loadSettings();
 
+            // Set PasswordTextBox
+            tbxPassword.setPasswordChar('*');
         }
     
         //distributes Event-Watchers
@@ -133,6 +135,14 @@ namespace OBS_Supporter
 
             // Load OBS-Path
             tbxObsPath.setText(main.obsPath);
+
+            // Load Port and Password
+            tbxPort.setText(Properties.Settings.Default.savedPort.ToString());
+            tbxPassword.setText(Properties.Settings.Default.savedPassword);
+            cbxSavePassword.Checked = !tbxPassword.getText().Equals("");
+
+            btnOK.Enabled = false;
+            btnApply.Enabled = false;
         }
 
         //form-Events---------------------------------------------------------------------------------------------------------------
@@ -200,7 +210,30 @@ namespace OBS_Supporter
                 btnApply.Enabled = true;
             }
         }
+        private void tbxPort_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(tbxPort.getText(), out _))
+            {
+                btnOK.Enabled = true;
+                btnApply.Enabled = true;
+                lblInvalidPort.Visible = false;
+            }
+            else
+            {
+                lblInvalidPort.Visible = true;
+            }
+        }
+        private void tbxPassword_TextChanged(object sender, EventArgs e)
+        {
+            btnOK.Enabled = true;
+            btnApply.Enabled = true;
+        }
         private void cbxShowConsoleOnBoot_CheckStateChanged(object sender, EventArgs e)
+        {
+            btnOK.Enabled = true;
+            btnApply.Enabled = true;
+        }
+        private void cbxSavePassword_CheckStateChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
             btnApply.Enabled = true;
@@ -228,15 +261,23 @@ namespace OBS_Supporter
             main.obsProcess.Start();
         }
 
+        /// <summary>
+        /// Stops the Replay-Buffer and closes OBS.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
             main.stopReplayBufferAndCloseOBS();
         }
         
-            //Saves Settings
+        /// <summary>
+        /// Saves all Settings.
+        /// </summary>
         private void applySettings()
         {
             lblInvalid.Visible = false;
+            lblInvalidPort.Visible = false;
             main.obsPath = Path.GetFullPath(tbxObsPath.getText());
             main.removeObsLnk();
             main.createObsLnk();
@@ -247,6 +288,17 @@ namespace OBS_Supporter
             Properties.Settings.Default.savedOBSPath = main.obsPath;
             Properties.Settings.Default.savedUtilityProcesses = controlLineList.getAllUtilityApplications();
             Properties.Settings.Default.savedNotificationSound = cbxNotificationSound.Checked;
+            Properties.Settings.Default.savedPort = int.Parse(tbxPort.getText());
+            Properties.Settings.Default.savedPassword = tbxPassword.getText();
+
+            if (cbxSavePassword.Checked)
+            {
+                Properties.Settings.Default.savedPassword = tbxPassword.getText();
+            }
+            else
+            {
+                Properties.Settings.Default.savedPassword = "";
+            }
 
             Properties.Settings.Default.Save();
 
@@ -381,9 +433,11 @@ namespace OBS_Supporter
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            OpenFileDialog oFDialog = new OpenFileDialog();
-            oFDialog.InitialDirectory = "c:\\";
-            oFDialog.RestoreDirectory = false;
+            OpenFileDialog oFDialog = new OpenFileDialog
+            {
+                InitialDirectory = "c:\\",
+                RestoreDirectory = false
+            };
             if (oFDialog.ShowDialog() == DialogResult.OK)
             {
                 tbxObsPath.setText(oFDialog.FileName);
@@ -468,8 +522,10 @@ namespace OBS_Supporter
             {
                 string recordingPath = @main._obs.GetRecordingFolder().Replace("/", "\\");
                 lblRecordingPath.Text = "Recording Path:   " + recordingPath;
-                OBS_RBDWatcher = new FileSystemWatcher(recordingPath);
-                OBS_RBDWatcher.EnableRaisingEvents = true;
+                OBS_RBDWatcher = new FileSystemWatcher(recordingPath)
+                {
+                    EnableRaisingEvents = true
+                };
                 OBS_RBDWatcher.Changed += main.RBDChanged;
             }
         }
@@ -502,20 +558,6 @@ namespace OBS_Supporter
             Properties.Settings.Default.Save();
         }
 
-        //Form-Methods--------------------------------------------------------------------------------------------------------------
-        public void writeInConsole(System.Drawing.Color color, string message)
-        {
-            Invoke(new MethodInvoker(delegate {
-                rtbxConsole.SelectionStart = rtbxConsole.TextLength;
-                rtbxConsole.SelectionLength = 0;
-
-                rtbxConsole.SelectionColor = color;
-                rtbxConsole.AppendText(message + Environment.NewLine);
-                rtbxConsole.ScrollToCaret();
-                rtbxConsole.SelectionColor = System.Drawing.Color.White;
-            }));
-        }
-
         // Application Methods-------------------------------------------------------------------------------------------------------
 
         /// <summary>
@@ -536,6 +578,9 @@ namespace OBS_Supporter
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Removes the Task from the Task Scheduler which launches the App on System Boot.
+        /// </summary>
         private void removeScheduleTask()
         {
             string taskPath = Properties.Settings.Default.savedTaskPath;
@@ -553,6 +598,34 @@ namespace OBS_Supporter
                 catch { }
             }
         }
+
+        /// <summary>
+        /// Writes a Message into the Application Console with the specified Color
+        /// </summary>
+        /// <param name="color"> The Color of the Message </param>
+        /// <param name="message"> The Output Message </param>
+        public void writeInConsole(System.Drawing.Color color, string message)
+        {
+            Invoke(new MethodInvoker(delegate {
+                rtbxConsole.SelectionStart = rtbxConsole.TextLength;
+                rtbxConsole.SelectionLength = 0;
+
+                rtbxConsole.SelectionColor = color;
+                rtbxConsole.AppendText(message + Environment.NewLine);
+                rtbxConsole.ScrollToCaret();
+                rtbxConsole.SelectionColor = System.Drawing.Color.White;
+            }));
+        }
+
+        public int getPort()
+        {
+            return int.Parse(tbxPort.getText());
+        }
+
+        public string getPassword()
+        {
+            return tbxPassword.getText();
+        }
     }
 
     public class Main
@@ -561,9 +634,9 @@ namespace OBS_Supporter
         private string isScene;
         private string isProfile;
         private string wantScene = "";
-        private string wantProfile = "";
+        private readonly string wantProfile = "";
         private bool replayBufferState = false;
-        private frmOBSSupporter supporterForm;
+        private readonly frmOBSSupporter supporterForm;
         public WshShell shell1;
         public IWshShortcut shortcut1;
         public Process obsProcess;
@@ -575,7 +648,7 @@ namespace OBS_Supporter
         private bool closingOBS = false;
         private UInt32 currentAppID = 0;
         private Thread thread;
-        private string sceneChangedTo;
+        private int connectionAttempts;
 
 
         public Main(frmOBSSupporter e)
@@ -613,6 +686,7 @@ namespace OBS_Supporter
                 obsProcessID = (UInt32)obsProcess.Id;
                 supporterForm.startWatch.Stop();// TODO: nessacery?
                 supporterForm.startWatch.Start();// TODO: nessacery?
+                connectionAttempts = 0;
                 thread = new Thread(new ThreadStart(connect));
                 thread.Start();
             }
@@ -757,15 +831,14 @@ namespace OBS_Supporter
         /// </summary>
         private void connect()
         {
-            DateTime dateTime = DateTime.Now;
-            while (!onConnectTriggered && opened && DateTime.Now.CompareTo(dateTime) >= 0)
+            if(!onConnectTriggered && opened)
             {
-                dateTime = DateTime.Now.AddSeconds(3);
                 onConnectTriggered = false;
                 supporterForm.writeInConsole(System.Drawing.Color.Yellow, "CONNECTING...");
                 try
                 {
-                    _obs.Connect("ws://127.0.0.1:4444", "");
+                    //_obs.Connect("ws://127.0.0.1:4444", "");
+                    _obs.Connect("ws://127.0.0.1:" + supporterForm.getPort(), supporterForm.getPassword());
                 }
                 catch (Exception e)
                 {
@@ -788,10 +861,10 @@ namespace OBS_Supporter
         //_obs-Events---------------------------------------------------------------------------------------------------------------
         private void onSceneChange(OBSWebsocket sender, string newSceneName)
         {
-            if (sceneChangedTo != newSceneName)
-            {
-                //sound for scenechange
-            }
+            //if (sceneChangedTo != newSceneName)
+            //{
+            //    //sound for scenechange
+            //}
         }
 
         public void RBDChanged(object sender, FileSystemEventArgs e)
@@ -804,8 +877,10 @@ namespace OBS_Supporter
 
         public void playNotificationSound()
         {
-            System.Media.SoundPlayer sPlayer = new System.Media.SoundPlayer();
-            sPlayer.Stream = Properties.Resources.AirPlanDing30Percent;
+            System.Media.SoundPlayer sPlayer = new System.Media.SoundPlayer
+            {
+                Stream = Properties.Resources.AirPlanDing30Percent
+            };
             sPlayer.Play();
         }
 
@@ -827,6 +902,11 @@ namespace OBS_Supporter
             }
         }
 
+        /// <summary>
+        /// Marks OBS as closed and disconnected. If the Disconnect happened without obs being closed, it will reconnect to the Websocket.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onDisconnect(object sender, EventArgs e)
         {
             onConnectTriggered = false;
@@ -837,11 +917,21 @@ namespace OBS_Supporter
                 supporterForm.writeInConsole(System.Drawing.Color.Red, "DISCONNECTED FROM WEBSOCKET");
                 supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onDisconnect(); }));
                 replayBufferState = false;
-            } else
+            } 
+            else
             {
                 supporterForm.writeInConsole(System.Drawing.Color.Orange, "CONNECTION FAILED");
-                thread = new Thread(new ThreadStart(connect));
-                thread.Start();
+                if (obsProcess.HasExited)
+                {
+                    supporterForm.Invoke(new MethodInvoker(delegate { supporterForm.onDisconnect(); }));
+                    replayBufferState = false;
+                }
+                else if (connectionAttempts < 5)
+                {
+                    connectionAttempts++;
+                    thread = new Thread(new ThreadStart(connect));
+                    thread.Start();
+                }
             }
         }
     }
