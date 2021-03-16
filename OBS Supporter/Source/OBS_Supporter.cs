@@ -154,7 +154,7 @@ namespace OBS_Supporter
         /// <param name="e"></param>
         private void frmOBSSupporter_Shown(object sender, EventArgs e)
         {
-            loadSettings();
+            //loadSettings();
 
             // check for Commandline-Arguments
             string[] args = Environment.GetCommandLineArgs();
@@ -606,7 +606,8 @@ namespace OBS_Supporter
         /// <param name="message"> The Output Message </param>
         public void writeInConsole(System.Drawing.Color color, string message)
         {
-            Invoke(new MethodInvoker(delegate {
+            _ = Invoke(new MethodInvoker(delegate
+            {
                 rtbxConsole.SelectionStart = rtbxConsole.TextLength;
                 rtbxConsole.SelectionLength = 0;
 
