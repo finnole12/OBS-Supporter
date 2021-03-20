@@ -750,6 +750,7 @@ namespace OBS_Supporter
             {
                 if (wantScene != "")
                 {
+                    supporterForm.writeInConsole(System.Drawing.Color.Yellow, "CHANGING SCENE FROM " + isScene + " TO " + wantScene);
                     _obs.SetCurrentScene(wantScene);
                 }
             }
@@ -760,11 +761,14 @@ namespace OBS_Supporter
             refreshProfileName();
             if (isProfile != wantProfile && wantProfile != "")
             {
+                supporterForm.writeInConsole(System.Drawing.Color.Yellow, "STOPPING REPLAY BUFFER TO CHANGE PROFILE");
                 _obs.StopReplayBuffer();
+                supporterForm.writeInConsole(System.Drawing.Color.Yellow, "CHANGING PROFILE FROM " + isProfile + " TO " + wantProfile);
                 _obs.SetCurrentProfile(wantProfile);
             }
             if (!replayBufferState)
             {
+                supporterForm.writeInConsole(System.Drawing.Color.Yellow, "STARTING REPLAY BUFFER");
                 _obs.StartReplayBuffer();
                 replayBufferState = true;
             }
@@ -838,7 +842,7 @@ namespace OBS_Supporter
         /// </summary>
         private void connect()
         {
-            if(!onConnectTriggered && opened)
+            if (!onConnectTriggered && opened)
             {
                 onConnectTriggered = false;
                 supporterForm.writeInConsole(System.Drawing.Color.Yellow, "CONNECTING...");
