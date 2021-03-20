@@ -712,6 +712,11 @@ namespace OBS_Supporter
         }
 
         //Watcher-Methods---------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// if connected to the Websocket, the Scene and Profile will be set. If not connected, Obs will be launched.
+        /// </summary>
+        /// <param name="scene"></param>
         public void gameStarted(string scene)
         {
             wantScene = scene;
@@ -726,6 +731,7 @@ namespace OBS_Supporter
                 {
                     launchInit = true;
 
+                    supporterForm.writeInConsole(System.Drawing.Color.Yellow, "LAUNCHING OBS...");
                     obsProcess.Start();
 
                     MediaPlayer mPlayer = new MediaPlayer();
